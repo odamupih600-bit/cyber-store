@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الخدمات الرقمية</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0b0f19;
+            color: #ffffff;
+            margin: 0;
+            padding: 15px;
+            direction: rtl;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        .header {
+            background: #161f32;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .card {
+            background: #161f32;
+            border: 1px solid #28354f;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 6px 0;
+            border-radius: 8px;
+            border: 1px solid #28354f;
+            box-sizing: border-box;
+            background: #0b0f19;
+            color: #fff;
+        }
+        button {
+            background: #2563eb;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover { background: #1d4ed8; }
+        .btn-buy { width: auto; padding: 8px 15px; }
+        .hidden { display: none; }
+        .admin-btn-secret {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: transparent;
+            border: none;
+            color: #475569;
+            font-size: 18px;
+            width: auto;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- ==================== واجهة الزبون ==================== -->
+    <div id="user-view">
+        <div class="header">
+            <!-- زر سري للأدمن في زاوية الشاشة -->
+            <button class="admin-btn-secret" onclick="openAdminModal()">⚙️</button>
+            <h2 id="user-name">أهلاً بك في المتجر</h2>
+            <p id="user-id" style="color: #94a3b8; font-size: 13px;">ID: جاري التحميل...</p>
+        </div>
+
+        <h3>🎮 اختر الخدمة وشحن حسابك:</h3>
+        <input type="text" id="player-id" placeholder="أدخل ID حسابك في اللعبة (مثال: PUBG ID)">
+
+        <div id="products-list">
+            <!-- المنتجات المعروضة للزبون -->
+            <div class="card">
+                <div>
+                    <h4 style="margin:0;">60 شدة ببجي</h4>
+                    <span style="color:#38bdf8;">1.00 $</span>
+                </div>
+                <button class="btn-buy" onclick="buy('60 شدة ببجي', 1.00, '102')">شراء</button>
+            </div>
+
+            <div class="card">
+                <div>
+                    <h4 style="margin:0;">325 شدة ببجي</h4>
+                    <span style="color:#38bdf8;">5.00 $</span>
+                </div>
+                <button class="btn-buy" onclick="buy('325 شدة ببجي', 5.00, '103')">شراء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== نافذة الأدمن المخفية ==================== -->
+    <div id="admin-view" class="hidden">
+        <div class="header" style="border: 1px solid #ef4444;">
+            <h2 style="color: #ef4444;">🔐 لوحة تحكم الأدمن</h2>
+            <p>مخصصة لصاحب المتجر فقط</p>
+        </div>
+
+        <!-- تسجيل الدخول -->
+        <div id="admin-login">
+            <input type="password" id="admin-pass" placeholder="أدخل كلمة السر...">
+            <button onclick="checkAdminPass()">دخول</button>
+            <button onclick="closeAdminPanel()" style="background:#475569;">إلغاء وعودة للمتجر</button>
+        </div>
+
+        <!-- أزرار الإدارة بعد تسجيل الدخول -->
+        <div id="admin-controls" class="hidden">
+            <h3>➕ إضافة منتج جديد</h3>
+            <input type="text" id="new-prod-name" placeholder="اسم المنتج">
+            <input type="number" id="new-prod-price" placeholder="السعر بالـ $">
+            <input type="text" id="new-prod-service" placeholder="رقم الخدمة عند المزود (Service ID)">
+            <button onclick="addNewProduct()" style="background:#16a34a;">حفظ المنتج</button>
+
+            <hr style="border-color:#28354f; margin:20px 0;">
+
+            <button onclick="closeAdminPanel()" style="background:#dc2626;">خروج من اللوحة</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    // جلب بيانات الزبون تلقائياً من تليجرام
+    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        const user = tg.initDataUnsafe.user;
+        document.getElementById('user-name').innerText = `أهلاً بك، ${user.first_name}`;
+        document.getElementById('user-id').innerText = `ID: ${user.id}`;
+    }
+
+    // إرسال طلب الشراء للبوت
+    function buy(productName, price, serviceId) {
+        const playerId = document.getElementById('player-id').value;
+        if (!playerId) {
+            alert("⚠️ يرجى كتابة ID حسابك في اللعبة أولاً!");
+            return;
+        }
+
+        const user = tg.initDataUnsafe.user || { id: '000', first_name: 'مستخدم' };
+
+        const payload = {
+            action: "buy",
+            user_id: user.id,
+            username: user.first_name,
+            product: productName,
+            price: price,
+            player_id: playerId,
+            service_id: serviceId
+        };
+
+        tg.sendData(JSON.stringify(payload));
+        tg.close();
+    }
+
+    // --- منطق لوحة الأدمن ---
+    const ADMIN_KEY = "admin123"; // كلمة سر الأدمن الخاصة بك
+
+    function openAdminModal() {
+        document.getElementById('user-view').classList.add('hidden');
+        document.getElementById('admin-view').classList.remove('hidden');
+    }
+
+    function closeAdminPanel() {
+        document.getElementById('admin-view').classList.add('hidden');
+        document.getElementById('user-view').classList.remove('hidden');
+    }
+
+    function checkAdminPass() {
+        const pass = document.getElementById('admin-pass').value;
+        if (pass === ADMIN_KEY) {
+            document.getElementById('admin-login').classList.add('hidden');
+            document.getElementById('admin-controls').classList.remove('hidden');
+        } else {
+            alert("❌ كلمة السر غير صحيحة!");
+        }
+    }
+
+    function addNewProduct() {
+        const name = document.getElementById('new-prod-name').value;
+        const price = document.getElementById('new-prod-price').value;
+        const service = document.getElementById('new-prod-service').value;
+
+        if (!name || !price) {
+            alert("يرجى إكمال البيانات!");
+            return;
+        }
+
+        // إضافة المنتج للواجهة فوراً
+        const list = document.getElementById('products-list');
+        const newCard = document.createElement('div');
+        newCard.className = 'card';
+        newCard.innerHTML = `
+            <div>
+                <h4 style="margin:0;">${name}</h4>
+                <span style="color:#38bdf8;">${price} $</span>
+            </div>
+            <button class="btn-buy" onclick="buy('${name}', ${price}, '${service}')">شراء</button>
+        `;
+        list.appendChild(newCard);
+
+        alert("✅ تم إضافة المنتج للمتجر بنجاح!");
+        closeAdminPanel();
+    }
+</script>
+
+</body>
+</html>
