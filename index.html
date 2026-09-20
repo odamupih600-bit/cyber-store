@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Store</title>
-    <!-- Telegram WebApp JS -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- FontAwesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -32,8 +30,16 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding-bottom: 70px;
+            padding-bottom: 75px;
             user-select: none;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
         }
 
         .header {
@@ -93,7 +99,7 @@
             background-color: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 14px;
-            padding: 18px 10px;
+            padding: 18px 8px;
             text-align: center;
             cursor: pointer;
             transition: transform 0.2s, border-color 0.2s;
@@ -115,10 +121,15 @@
         }
 
         .grid-card span {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-title);
             line-height: 1.3;
+        }
+
+        .content-box {
+            padding: 20px 15px;
+            text-align: center;
         }
 
         .bottom-nav {
@@ -145,6 +156,7 @@
             font-size: 11px;
             cursor: pointer;
             flex: 1;
+            transition: color 0.2s;
         }
 
         .nav-item.active {
@@ -158,58 +170,115 @@
 </head>
 <body>
 
-    <div class="header">
-        <h1>أهلاً وسهلاً بكم في متجر Cyber Store</h1>
+    <!-- الصفحة الرئيسية -->
+    <div id="home-page" class="page active">
+        <div class="header">
+            <h1>أهلاً وسهلاً بكم في متجر Cyber Store</h1>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="بحث...">
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <!-- الأقسام القديمة -->
+            <div class="grid-card" onclick="openCategory('الأرصدة والعملات')">
+                <i class="fa-solid fa-gem"></i>
+                <span>الأرصدة والعملات</span>
+            </div>
+            <div class="grid-card" onclick="openCategory('قسم الألعاب')">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>قسم الألعاب</span>
+            </div>
+            <div class="grid-card" onclick="openCategory('قسم التطبيقات')">
+                <i class="fa-solid fa-globe"></i>
+                <span>قسم التطبيقات</span>
+            </div>
+            <div class="grid-card" onclick="openCategory('اشتراكات TV')">
+                <i class="fa-solid fa-tv"></i>
+                <span>اشتراكات TV</span>
+            </div>
+            <div class="grid-card" onclick="openCategory('قسم الأرقام')">
+                <i class="fa-solid fa-phone"></i>
+                <span>قسم الأرقام</span>
+            </div>
+            <div class="grid-card" onclick="openCategory('حسابات جاهزة')">
+                <i class="fa-solid fa-user"></i>
+                <span>حسابات جاهزة</span>
+            </div>
+
+            <!-- الأقسام الجديدة المضافة -->
+            <div class="grid-card" onclick="openCategory('اشتراكات برامج التصميم')">
+                <i class="fa-solid fa-palette"></i>
+                <span>برامج التصميم</span>
+            </div>
+            <div class="grid-card" onclick="openCategory('الذكاء الاصطناعي')">
+                <i class="fa-solid fa-robot"></i>
+                <span>الذكاء الاصطناعي</span>
+            </div>
+            <div class="grid-card" onclick="openCategory('البطاقات الإلكترونية')">
+                <i class="fa-solid fa-credit-card"></i>
+                <span>البطاقات الإلكترونية</span>
+            </div>
+            <div class="grid-card" onclick="openCategory('سوشال ميديا')">
+                <i class="fa-solid fa-hashtag"></i>
+                <span>سوشال ميديا</span>
+            </div>
+            <div class="grid-card" onclick="openCategory('توثيق حسابات')">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>توثيق حسابات</span>
+            </div>
+        </div>
     </div>
 
-    <div class="search-container">
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="بحث...">
+    <!-- صفحة طلباتي -->
+    <div id="orders-page" class="page">
+        <div class="header">
+            <h1>سجل الطلبات</h1>
+        </div>
+        <div class="content-box">
+            <p>لا توجد طلبات سابقة حالياً.</p>
         </div>
     </div>
 
-    <div class="grid-container">
-        <div class="grid-card" onclick="openSection('الأرصدة والعملات')">
-            <i class="fa-solid fa-gem"></i>
-            <span>الأرصدة والعملات</span>
+    <!-- صفحة الشحن -->
+    <div id="recharge-page" class="page">
+        <div class="header">
+            <h1>شحن الرصيد</h1>
         </div>
-        <div class="grid-card" onclick="openSection('قسم الألعاب')">
-            <i class="fa-solid fa-gamepad"></i>
-            <span>قسم الألعاب</span>
-        </div>
-        <div class="grid-card" onclick="openSection('قسم التطبيقات')">
-            <i class="fa-solid fa-globe"></i>
-            <span>قسم التطبيقات</span>
-        </div>
-        <div class="grid-card" onclick="openSection('اشتراكات TV')">
-            <i class="fa-solid fa-tv"></i>
-            <span>اشتراكات TV</span>
-        </div>
-        <div class="grid-card" onclick="openSection('قسم الأرقام')">
-            <i class="fa-solid fa-phone"></i>
-            <span>قسم الأرقام</span>
-        </div>
-        <div class="grid-card" onclick="openSection('حسابات جاهزة')">
-            <i class="fa-solid fa-user"></i>
-            <span>حسابات جاهزة</span>
+        <div class="content-box">
+            <p>اختر طريقة الشحن المناسبة لك لتعبئة رصيد الحساب.</p>
         </div>
     </div>
 
+    <!-- صفحة حسابي -->
+    <div id="profile-page" class="page">
+        <div class="header">
+            <h1>الملف الشخصي</h1>
+        </div>
+        <div class="content-box">
+            <p id="user-info">جاري تحميل بيانات الحساب...</p>
+        </div>
+    </div>
+
+    <!-- شريط التنقل السفلي -->
     <div class="bottom-nav">
-        <div class="nav-item active">
+        <div class="nav-item active" onclick="switchPage('home-page', this)">
             <i class="fa-solid fa-house"></i>
             <span>الرئيسية</span>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" onclick="switchPage('orders-page', this)">
             <i class="fa-solid fa-box-archive"></i>
             <span>طلباتي</span>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" onclick="switchPage('recharge-page', this)">
             <i class="fa-solid fa-wallet"></i>
             <span>شحن</span>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" onclick="switchPage('profile-page', this)">
             <i class="fa-solid fa-user-gear"></i>
             <span>حسابي</span>
         </div>
@@ -219,11 +288,24 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        function openSection(name) {
-            tg.showAlert("تم اختيار " + name);
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
+            document.getElementById('user-info').innerText = `المستخدم: ${user.first_name} ${user.last_name || ''}\nالمعرف: @${user.username || 'بدون معرف'}`;
+        } else {
+            document.getElementById('user-info').innerText = "تم الفتح خارج التليجرام أو تعذر التعرّف على الحساب.";
+        }
+
+        function switchPage(pageId, element) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active');
+            element.classList.add('active');
+        }
+
+        function openCategory(name) {
+            tg.showAlert("جاري فتح: " + name);
         }
     </script>
 </body>
-          </html>
-
-      
+</html>
