@@ -1,44 +1,229 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cyber Store</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
-    body { background-color: #0d1117; color: #ffffff; padding-bottom: 70px; }
-    header { padding: 15px; text-align: center; background: #161b22; border-bottom: 1px solid #30363d; }
-    .search-bar { margin: 15px; }
-    .search-bar input { width: 100%; padding: 12px; border-radius: 25px; border: 1px solid #30363d; background: #161b22; color: #fff; text-align: center; }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; }
-    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 15px 5px; text-align: center; font-size: 12px; cursor: pointer; }
-    .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #161b22; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #30363d; }
-    .nav-item { color: #8b949e; text-decoration: none; font-size: 12px; }
-    .nav-item.active { color: #58a6ff; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Store</title>
+    <!-- Telegram WebApp JS -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --card-border: #21262d;
+            --text-color: #c9d1d9;
+            --text-title: #ffffff;
+            --accent-color: #58a6ff;
+            --accent-glow: rgba(88, 166, 255, 0.15);
+            --nav-bg: #161b22;
+            --input-bg: #0d1117;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 70px;
+            user-select: none;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 15px 10px 15px;
+        }
+
+        .header h1 {
+            color: var(--text-title);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .search-container {
+            padding: 10px 15px 20px 15px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-title);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            text-align: right;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8b949e;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 0 15px;
+        }
+
+        .grid-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 18px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .grid-card:active {
+            transform: scale(0.96);
+            border-color: var(--accent-color);
+        }
+
+        .grid-card i {
+            font-size: 24px;
+            color: var(--accent-color);
+        }
+
+        .grid-card span {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-title);
+            line-height: 1.3;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: var(--nav-bg);
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 11px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+        }
+
+        .nav-item i {
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
-  <header><h3>أهلاً وسهلاً بكم في متجر Cyber Store</h3></header>
-  <div class="search-bar"><input type="text" placeholder="بحث..."></div>
-  <div class="grid">
-    <div class="card">💎<br>الأرصدة والعملات</div>
-    <div class="card">🎮<br>قسم الألعاب</div>
-    <div class="card">🌐<br>قسم التطبيقات</div>
-    <div class="card">📺<br>اشتراكات TV</div>
-    <div class="card">📞<br>قسم الأرقام</div>
-    <div class="card">👤<br>حسابات جاهزة</div>
-  </div>
-  <div class="bottom-nav">
-    <a href="#" class="nav-item active">الرئيسية</a>
-    <a href="#" class="nav-item">طلباتي</a>
-    <a href="#" class="nav-item">شحن</a>
-    <a href="#" class="nav-item">حسابي</a>
-  </div>
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-  </script>
+
+    <div class="header">
+        <h1>أهلاً وسهلاً بكم في متجر Cyber Store</h1>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="بحث...">
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <div class="grid-card" onclick="openSection('الأرصدة والعملات')">
+            <i class="fa-solid fa-gem"></i>
+            <span>الأرصدة والعملات</span>
+        </div>
+        <div class="grid-card" onclick="openSection('قسم الألعاب')">
+            <i class="fa-solid fa-gamepad"></i>
+            <span>قسم الألعاب</span>
+        </div>
+        <div class="grid-card" onclick="openSection('قسم التطبيقات')">
+            <i class="fa-solid fa-globe"></i>
+            <span>قسم التطبيقات</span>
+        </div>
+        <div class="grid-card" onclick="openSection('اشتراكات TV')">
+            <i class="fa-solid fa-tv"></i>
+            <span>اشتراكات TV</span>
+        </div>
+        <div class="grid-card" onclick="openSection('قسم الأرقام')">
+            <i class="fa-solid fa-phone"></i>
+            <span>قسم الأرقام</span>
+        </div>
+        <div class="grid-card" onclick="openSection('حسابات جاهزة')">
+            <i class="fa-solid fa-user"></i>
+            <span>حسابات جاهزة</span>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>الرئيسية</span>
+        </div>
+        <div class="nav-item">
+            <i class="fa-solid fa-box-archive"></i>
+            <span>طلباتي</span>
+        </div>
+        <div class="nav-item">
+            <i class="fa-solid fa-wallet"></i>
+            <span>شحن</span>
+        </div>
+        <div class="nav-item">
+            <i class="fa-solid fa-user-gear"></i>
+            <span>حسابي</span>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function openSection(name) {
+            tg.showAlert("تم اختيار " + name);
+        }
+    </script>
 </body>
-  </html>
+          </html>
+
       
