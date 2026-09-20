@@ -29,7 +29,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding-bottom: 80px;
+            padding-bottom: 90px;
             user-select: none;
         }
 
@@ -52,12 +52,12 @@
 
         .page-header h2 {
             color: var(--text-title);
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
         }
 
         .page-header p {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-color);
         }
 
@@ -72,9 +72,10 @@
             align-items: center;
             justify-content: center;
             font-size: 14px;
+            cursor: pointer;
         }
 
-        /* Profile User Card */
+        /* User Card */
         .user-card {
             background: var(--accent-gradient);
             border-radius: 20px;
@@ -95,10 +96,10 @@
         .avatar {
             width: 50px;
             height: 50px;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             color: #2563eb;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 18px;
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -140,7 +141,7 @@
             cursor: pointer;
         }
 
-        /* Two Columns Grid */
+        /* Grid Layouts */
         .row-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -160,11 +161,6 @@
             gap: 8px;
         }
 
-        .info-card i {
-            font-size: 24px;
-            color: var(--accent-blue);
-        }
-
         .info-card select {
             width: 100%;
             background: var(--bg-color);
@@ -174,6 +170,7 @@
             border-radius: 8px;
             outline: none;
             margin-top: 5px;
+            font-size: 12px;
         }
 
         .action-btn {
@@ -188,7 +185,6 @@
             cursor: pointer;
         }
 
-        /* Stats Row */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -210,7 +206,7 @@
 
         .stat-card h4 {
             color: white;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .stat-card p {
@@ -218,7 +214,53 @@
             color: var(--text-color);
         }
 
-        /* Orders Filters */
+        /* Categories Color Grid (الرئيسية) */
+        .category-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .cat-card {
+            border-radius: 16px;
+            padding: 20px 15px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 110px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .cat-card i {
+            font-size: 28px;
+            align-self: flex-end;
+            opacity: 0.9;
+        }
+
+        .cat-card h3 {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .cat-card p {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+
+        /* ألوان الكروت في القائمة الرئيسية */
+        .cat-purple { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+        .cat-blue { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+        .cat-green { background: linear-gradient(135deg, #059669, #10b981); }
+        .cat-orange { background: linear-gradient(135deg, #ea580c, #f97316); }
+        .cat-pink { background: linear-gradient(135deg, #db2777, #ec4899); }
+        .cat-cyan { background: linear-gradient(135deg, #0891b2, #06b6d4); }
+
+        /* Orders & Recharge Filters */
         .date-filters {
             display: flex;
             gap: 8px;
@@ -232,7 +274,7 @@
             border-radius: 20px;
             padding: 8px 12px;
             color: white;
-            font-size: 12px;
+            font-size: 11px;
             display: flex;
             justify-content: space-between;
         }
@@ -261,6 +303,7 @@
             border-radius: 20px;
             padding: 0 15px;
             font-size: 12px;
+            cursor: pointer;
         }
 
         .filter-tags {
@@ -312,7 +355,7 @@
             margin-bottom: 10px;
         }
 
-        /* Bottom Nav (5 Items) */
+        /* Bottom Nav */
         .bottom-nav {
             position: fixed;
             bottom: 10px;
@@ -350,7 +393,145 @@
 </head>
 <body>
 
-    <!-- صفحة حسابي -->
+    <!-- 1. الرئيسية -->
+    <div id="home-page" class="page">
+        <div class="page-header">
+            <div>
+                <h2>الرئيسية</h2>
+                <p>اختر القسم المطلوبة للشحن أو الشراء</p>
+            </div>
+            <div class="back-btn"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+
+        <div class="category-grid">
+            <div class="cat-card cat-purple">
+                <i class="fa-solid fa-gamepad"></i>
+                <div>
+                    <h3>شحن ألعاب</h3>
+                    <p>ببجي، فري فاير، إلخ</p>
+                </div>
+            </div>
+            <div class="cat-card cat-blue">
+                <i class="fa-solid fa-credit-card"></i>
+                <div>
+                    <h3>بطاقات رقمية</h3>
+                    <p>جوجل بلاي، آيتونز</p>
+                </div>
+            </div>
+            <div class="cat-card cat-green">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <div>
+                    <h3>رصيد شبكات</h3>
+                    <p>سيريتل، إم تي إن</p>
+                </div>
+            </div>
+            <div class="cat-card cat-orange">
+                <i class="fa-solid fa-bolt"></i>
+                <div>
+                    <h3>خدمات سريعة</h3>
+                    <p>اشتراكات وتفعيل</p>
+                </div>
+            </div>
+            <div class="cat-card cat-pink">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div>
+                    <h3>حسابات جاهزة</h3>
+                    <p>حسابات مفعلة وموثقة</p>
+                </div>
+            </div>
+            <div class="cat-card cat-cyan">
+                <i class="fa-solid fa-headset"></i>
+                <div>
+                    <h3>الدعم الفني</h3>
+                    <p>تواصل مع الفنيين</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. طلباتي -->
+    <div id="orders-page" class="page">
+        <div class="page-header">
+            <div>
+                <h2>طلباتي</h2>
+                <p>تابع حالة كل طلب</p>
+            </div>
+            <div class="back-btn"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+
+        <div class="date-filters">
+            <div class="date-input">من: <span>2026/09/20 ˅</span></div>
+            <div class="date-input">إلى: <span>2026/09/20 ˅</span></div>
+        </div>
+
+        <div class="search-bar-row">
+            <input type="text" class="search-input-box" placeholder="رقم الطلب أو الخدمة...">
+            <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
+        </div>
+
+        <div class="filter-tags">
+            <div class="tag active">الكل <span>0</span></div>
+            <div class="tag">مكتمل <span>0</span></div>
+            <div class="tag">انتظار <span>0</span></div>
+            <div class="tag">مرفوض <span>0</span></div>
+        </div>
+
+        <div class="total-box">
+            <span>إجمالي المدفوع:</span>
+            <span class="formatted-currency">0.00 $ <i class="fa-solid fa-wallet"></i></span>
+        </div>
+
+        <div class="empty-orders">
+            <i class="fa-solid fa-box-open"></i>
+            <p>لا توجد طلبات في هذا التاريخ.</p>
+        </div>
+    </div>
+
+    <!-- 3. شحن الرصيد -->
+    <div id="recharge-page" class="page">
+        <div class="page-header">
+            <div>
+                <h2>شحن الرصيد</h2>
+                <p>اختر طريقة الدفع المناسبة لشحن حسابك</p>
+            </div>
+            <div class="back-btn"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+
+        <div class="category-grid">
+            <div class="cat-card cat-green">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                <div>
+                    <h3>شام كاش / سيريتل كاش</h3>
+                    <p>تحويل سريع</p>
+                </div>
+            </div>
+            <div class="cat-card cat-blue">
+                <i class="fa-solid fa-coins"></i>
+                <div>
+                    <h3>العملات الرقمية (USDT)</h3>
+                    <p>شبكة TRC20 / BEP20</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. الشحنات -->
+    <div id="history-page" class="page">
+        <div class="page-header">
+            <div>
+                <h2>سجل الشحنات</h2>
+                <p>سجل عمليات الإيداع السابقة</p>
+            </div>
+            <div class="back-btn"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+
+        <div class="empty-orders">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <p>لا توجد عمليات شحن سابقة.</p>
+        </div>
+    </div>
+
+    <!-- 5. حسابي -->
     <div id="profile-page" class="page active">
         <div class="page-header">
             <div>
@@ -372,93 +553,52 @@
             <div class="balance-section">
                 <div>
                     <p style="font-size: 11px; opacity: 0.8;">رصيدك الحالي</p>
-                    <div class="balance-amount">$ 0.00</div>
+                    <div class="balance-amount" id="user-balance">0.00 $</div>
                 </div>
-                <button class="recharge-btn"><i class="fa-solid fa-wallet"></i> شحن الرصيد</button>
+                <!-- التغيير الأول: ينقل قسم شحن عند الضغط -->
+                <button class="recharge-btn" onclick="goToRecharge()"><i class="fa-solid fa-wallet"></i> شحن الرصيد</button>
             </div>
         </div>
 
         <div class="row-grid">
             <div class="info-card">
-                <i class="fa-solid fa-award" style="color: #cd7f32;"></i>
+                <i class="fa-solid fa-award" style="color: #cd7f32; font-size: 24px;"></i>
                 <h4 style="color:white; font-size:14px;">عضوية برونزي</h4>
                 <p style="font-size: 10px;">العضوية الافتراضية لكل عميل جديد.</p>
             </div>
             <div class="info-card">
-                <i class="fa-solid fa-right-left"></i>
+                <i class="fa-solid fa-right-left" style="color: var(--accent-blue); font-size: 20px;"></i>
                 <h4 style="color:white; font-size:13px;">العملة المفضلة</h4>
-                <select>
-                    <option>الدولار الأميركي ($)</option>
-                    <option>الليرة السورية</option>
+                <select id="currency-select">
+                    <option value="$">الدولار الأميركي ($)</option>
+                    <option value="ل.س">الليرة السورية (ل.س)</option>
                 </select>
-                <button class="action-btn">حفظ العملة</button>
+                <!-- التغيير الثاني: لا يتم التغيير إلا عند الضغط هنا -->
+                <button class="action-btn" onclick="saveCurrency()">حفظ العملة</button>
             </div>
         </div>
 
+        <!-- التغيير الثالث: تصفير الأرقام والإحصائيات -->
         <div class="stats-grid">
             <div class="stat-card">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <h4>2</h4>
+                <h4 id="stat-orders">0</h4>
                 <p>طلب مسبق</p>
             </div>
             <div class="stat-card">
                 <i class="fa-solid fa-wallet"></i>
-                <h4>1</h4>
+                <h4 id="stat-recharges">0</h4>
                 <p>عملية شحن</p>
             </div>
             <div class="stat-card">
                 <i class="fa-solid fa-coins"></i>
-                <h4>$ 3.60</h4>
+                <h4 id="stat-spending">0.00 $</h4>
                 <p>إجمالي الإنفاق</p>
             </div>
         </div>
     </div>
 
-    <!-- صفحة طلباتي -->
-    <div id="orders-page" class="page">
-        <div class="page-header">
-            <div>
-                <h2>طلباتي</h2>
-                <p>تابع حالة كل طلب</p>
-            </div>
-            <div class="back-btn"><i class="fa-solid fa-arrow-right"></i></div>
-        </div>
-
-        <div class="date-filters">
-            <div class="date-input">من: <span>2026/09/20 ˅</span></div>
-            <div class="date-input">إلى: <span>2026/09/20 ˅</span></div>
-        </div>
-
-        <div class="search-bar-row">
-            <input type="text" class="search-input-box" placeholder="رقم الطلب أو الخدمة...">
-            <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
-        </div>
-
-        <div class="filter-tags">
-            <div class="tag active">الكل <span>2</span></div>
-            <div class="tag">مكتمل <span>2</span></div>
-            <div class="tag">انتظار <span>0</span></div>
-            <div class="tag">مرفوض <span>0</span></div>
-        </div>
-
-        <div class="total-box">
-            <span>إجمالي المدفوع:</span>
-            <span>$ 0.00 <i class="fa-solid fa-wallet"></i></span>
-        </div>
-
-        <div class="empty-orders">
-            <i class="fa-solid fa-box-open"></i>
-            <p>لا توجد طلبات في هذا التاريخ.</p>
-        </div>
-    </div>
-
-    <!-- باقي الصفحات المؤقتة -->
-    <div id="home-page" class="page">
-        <div class="page-header"><h2>الرئيسية</h2></div>
-        <p style="text-align: center;">جاري فتح الأقسام والمنتجات...</p>
-    </div>
-
-    <!-- الشريط السفلي الدقيق بخمس خيارات -->
+    <!-- الشريط السفلي -->
     <div class="bottom-nav">
         <div class="nav-item" onclick="switchPage('home-page', this)">
             <i class="fa-solid fa-house"></i>
@@ -468,7 +608,7 @@
             <i class="fa-solid fa-bag-shopping"></i>
             <span>طلباتي</span>
         </div>
-        <div class="nav-item" onclick="switchPage('recharge-page', this)">
+        <div class="nav-item" id="nav-recharge" onclick="switchPage('recharge-page', this)">
             <i class="fa-solid fa-wallet"></i>
             <span>شحن</span>
         </div>
@@ -486,14 +626,15 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // جلب اسم العميل واختصاره تلقائياً من تليجرام
+        let currentSymbol = "$";
+
+        // بيانات المستخدم من تليجرام
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
             const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
-            document.getElementById('user-name').innerText = fullName || "مستخدم تليجرام";
+            document.getElementById('user-name').innerText = fullName || "مستخدم جديد";
             document.getElementById('user-id').innerText = `ID: ${user.id}`;
             
-            // عمل حروف الاختصار للرمز (Avatar)
             const firstLetter = user.first_name ? user.first_name[0] : 'U';
             const lastLetter = user.last_name ? user.last_name[0] : '';
             document.getElementById('avatar-letters').innerText = (firstLetter + lastLetter).toUpperCase();
@@ -505,7 +646,39 @@
 
             const targetPage = document.getElementById(pageId);
             if (targetPage) targetPage.classList.add('active');
-            element.classList.add('active');
+            
+            if (element) {
+                element.classList.add('active');
+            }
+        }
+
+        // الانتقال لصفحة الشحن عند الضغط على الزر داخل بطاقة حسابي
+        function goToRecharge() {
+            const rechargeNavItem = document.getElementById('nav-recharge');
+            switchPage('recharge-page', rechargeNavItem);
+        }
+
+        // حفظ العملة وتطبيقها فقط بعد الضغط على الزر
+        function saveCurrency() {
+            const select = document.getElementById('currency-select');
+            currentSymbol = select.value;
+
+            document.getElementById('user-balance').innerText = `0.00 ${currentSymbol}`;
+            document.getElementById('stat-spending').innerText = `0.00 ${currentSymbol}`;
+
+            document.querySelectorAll('.formatted-currency').forEach(el => {
+                el.innerHTML = `0.00 ${currentSymbol} <i class="fa-solid fa-wallet"></i>`;
+            });
+
+            if (tg.showPopup) {
+                tg.showPopup({
+                    title: 'تم الحفظ',
+                    message: `تم تغيير العملة المفضلة إلى (${currentSymbol}) بنجاح.`,
+                    buttons: [{ type: 'ok' }]
+                });
+            } else {
+                alert(`تم تغيير العملة إلى (${currentSymbol}) بنجاح.`);
+            }
         }
     </script>
 </body>
