@@ -3,447 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber store</title>
+    <title>CYBER STORE | متجر الخدمات الرقمية</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0f17;
-            --card-bg: #121824;
-            --card-border: #1f293d;
-            --text-color: #94a3b8;
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 46, 0.8);
+            --card-border: rgba(255, 255, 255, 0.08);
             --text-title: #ffffff;
-            --accent-blue: #2563eb;
-            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-            --nav-bg: #121824;
+            --text-sub: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f97316;
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            --gradient-card: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+            --nav-bg: rgba(15, 23, 42, 0.95);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-sub);
             padding-bottom: 90px;
             user-select: none;
+            overflow-x: hidden;
         }
 
+        /* Page Transitions */
         .page {
             display: none;
-            padding: 15px;
+            padding: 16px;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
         .page.active {
             display: block;
         }
 
-        /* Top Bar */
-        .page-header {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Top Header */
+        .top-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--card-border);
         }
 
-        .page-header h2 {
-            color: var(--text-title);
-            font-size: 20px;
-            font-weight: 700;
+        .brand-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .page-header p {
-            font-size: 11px;
-            color: var(--text-color);
-        }
-
-        .back-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-title);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--gradient-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            cursor: pointer;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
-        /* User Card */
-        .user-card {
-            background: var(--accent-gradient);
+        .brand-text h1 {
+            color: var(--text-title);
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-text p {
+            font-size: 11px;
+            color: var(--text-sub);
+        }
+
+        .quick-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            padding: 6px 12px;
             border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* User Profile Hero Card */
+        .hero-user-card {
+            background: var(--gradient-primary);
+            border-radius: 22px;
             padding: 20px;
             color: white;
             position: relative;
-            margin-bottom: 15px;
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.25);
+            margin-bottom: 20px;
         }
 
-        .user-info {
+        .hero-user-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
 
-        .avatar {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.85);
-            color: #2563eb;
-            font-weight: bold;
-            font-size: 18px;
-            border-radius: 15px;
+        .user-avatar-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .user-details h3 {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-
-        .user-details p {
-            font-size: 11px;
-            opacity: 0.8;
-        }
-
-        .balance-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .balance-amount {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .recharge-btn {
+        .user-meta h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .user-meta p {
+            font-size: 11px;
+            opacity: 0.85;
+        }
+
+        .balance-box p {
+            font-size: 11px;
+            opacity: 0.85;
+            margin-bottom: 2px;
+        }
+
+        .balance-box h2 {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-light {
+            flex: 1;
             background: white;
             color: #2563eb;
             border: none;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: bold;
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
-            cursor: pointer;
+            transition: 0.2s;
         }
 
-        /* Grid Layouts */
-        .row-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
+        .btn-light:active {
+            transform: scale(0.97);
         }
 
-        .info-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 15px;
-            text-align: center;
+        /* Section Title */
+        .section-header {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 12px 0;
+        }
+
+        .section-header h3 {
+            color: var(--text-title);
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .info-card select {
-            width: 100%;
-            background: var(--bg-color);
+        /* Category Cards Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .service-card {
+            background: var(--gradient-card);
             border: 1px solid var(--card-border);
-            color: white;
-            padding: 8px;
-            border-radius: 8px;
-            outline: none;
-            margin-top: 5px;
-            font-size: 12px;
-        }
-
-        .action-btn {
-            width: 100%;
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 12px;
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 115px;
             cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .stats-grid {
+        .service-card:active {
+            transform: scale(0.97);
+            border-color: var(--accent-blue);
+        }
+
+        .service-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .bg-purple { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
+        .bg-blue { background: linear-gradient(135deg, #3b82f6, #06b6d4); }
+        .bg-green { background: linear-gradient(135deg, #10b981, #059669); }
+        .bg-orange { background: linear-gradient(135deg, #f97316, #d97706); }
+        .bg-pink { background: linear-gradient(135deg, #ec4899, #be185d); }
+        .bg-cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+
+        .service-info h4 {
+            color: var(--text-title);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .service-info p {
+            font-size: 10px;
+            color: var(--text-sub);
+        }
+
+        /* Stats Grid */
+        .stats-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
+            margin-top: 15px;
         }
 
-        .stat-card {
+        .stat-box {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 16px;
-            padding: 12px 5px;
+            padding: 14px 8px;
             text-align: center;
         }
 
-        .stat-card i {
+        .stat-box i {
+            font-size: 18px;
             color: var(--accent-blue);
             margin-bottom: 6px;
         }
 
-        .stat-card h4 {
-            color: white;
-            font-size: 15px;
+        .stat-box h4 {
+            color: var(--text-title);
+            font-size: 14px;
+            font-weight: 700;
         }
 
-        .stat-card p {
+        .stat-box p {
             font-size: 10px;
-            color: var(--text-color);
+            color: var(--text-sub);
+            margin-top: 2px;
         }
 
-        /* Categories Color Grid (الرئيسية) */
-        .category-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .cat-card {
-            border-radius: 16px;
-            padding: 20px 15px;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 110px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .cat-card i {
-            font-size: 28px;
-            align-self: flex-end;
-            opacity: 0.9;
-        }
-
-        .cat-card h3 {
-            font-size: 15px;
-            font-weight: bold;
-        }
-
-        .cat-card p {
-            font-size: 10px;
-            opacity: 0.8;
-        }
-
-        /* ألوان الكروت في القائمة الرئيسية */
-        .cat-purple { background: linear-gradient(135deg, #7c3aed, #a855f7); }
-        .cat-blue { background: linear-gradient(135deg, #2563eb, #3b82f6); }
-        .cat-green { background: linear-gradient(135deg, #059669, #10b981); }
-        .cat-orange { background: linear-gradient(135deg, #ea580c, #f97316); }
-        .cat-pink { background: linear-gradient(135deg, #db2777, #ec4899); }
-        .cat-cyan { background: linear-gradient(135deg, #0891b2, #06b6d4); }
-
-        /* Orders & Recharge Filters */
-        .date-filters {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .date-input {
-            flex: 1;
+        /* Orders & Filters */
+        .search-box {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 8px 12px;
-            color: white;
-            font-size: 11px;
+            border-radius: 14px;
+            padding: 10px 14px;
             display: flex;
-            justify-content: space-between;
-        }
-
-        .search-bar-row {
-            display: flex;
-            gap: 8px;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 12px;
         }
 
-        .search-input-box {
-            flex: 1;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 8px 15px;
+        .search-box input {
+            background: transparent;
+            border: none;
             color: white;
-            font-size: 12px;
             outline: none;
+            width: 100%;
+            font-size: 12px;
         }
 
-        .search-btn {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
+        .filter-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 15px;
+        }
+
+        .chip {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-sub);
+            padding: 8px 16px;
             border-radius: 20px;
-            padding: 0 15px;
-            font-size: 12px;
+            font-size: 11px;
+            white-space: nowrap;
             cursor: pointer;
         }
 
-        .filter-tags {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 15px;
-            overflow-x: auto;
-        }
-
-        .tag {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
+        .chip.active {
+            background: var(--gradient-primary);
             color: white;
-            padding: 6px 14px;
-            border-radius: 15px;
-            font-size: 11px;
-            white-space: nowrap;
+            border-color: transparent;
         }
 
-        .tag.active {
-            background: #1e3a8a;
-            border-color: var(--accent-blue);
-            color: #60a5fa;
-        }
-
-        .total-box {
+        .empty-state {
             background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            color: #10b981;
-            font-weight: bold;
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
-
-        .empty-orders {
             border: 1px dashed var(--card-border);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 40px 20px;
             text-align: center;
+            margin-top: 10px;
         }
 
-        .empty-orders i {
-            font-size: 32px;
+        .empty-state i {
+            font-size: 36px;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        /* Settings Card */
+        .settings-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .settings-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .settings-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(59, 130, 246, 0.15);
             color: var(--accent-blue);
-            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
         }
 
-        /* Bottom Nav */
+        .settings-text h4 {
+            color: var(--text-title);
+            font-size: 13px;
+        }
+
+        .settings-text p {
+            font-size: 10px;
+            color: var(--text-sub);
+        }
+
+        select.custom-select {
+            background: #0b0f19;
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 10px;
+            outline: none;
+            font-size: 12px;
+        }
+
+        .btn-action {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Bottom Navbar */
         .bottom-nav {
             position: fixed;
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-            height: 60px;
-            background-color: var(--nav-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--card-border);
             display: flex;
             justify-content: space-around;
             align-items: center;
             z-index: 1000;
+            padding: 0 10px;
         }
 
-        .nav-item {
+        .nav-btn {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3px;
+            gap: 4px;
             color: #64748b;
             font-size: 10px;
+            font-weight: 500;
             cursor: pointer;
             flex: 1;
+            transition: all 0.2s;
         }
 
-        .nav-item.active {
+        .nav-btn.active {
             color: var(--accent-blue);
         }
 
-        .nav-item i {
-            font-size: 16px;
+        .nav-btn i {
+            font-size: 18px;
+        }
+
+        /* Modal / Dialog */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: #121824;
+            border: 1px solid var(--card-border);
+            border-radius: 22px;
+            padding: 20px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .modal-card h3 { color: white; margin-bottom: 8px; }
+        .modal-card p { font-size: 12px; color: var(--text-sub); margin-bottom: 15px; }
+        .modal-close {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
     <!-- 1. الرئيسية -->
-    <div id="home-page" class="page">
-        <div class="page-header">
-            <div>
-                <h2>الرئيسية</h2>
-                <p>اختر القسم المطلوبة للشحن أو الشراء</p>
+    <div id="home-page" class="page active">
+        <div class="top-header">
+            <div class="brand-info">
+                <div class="brand-logo"><i class="fa-solid fa-bolt"></i></div>
+                <div class="brand-text">
+                    <h1>CYBER STORE</h1>
+                    <p>متجر الخدمات الرقمية المباشرة</p>
+                </div>
             </div>
-            <div class="back-btn"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="quick-badge"><i class="fa-solid fa-circle"></i> متصل</div>
         </div>
 
-        <div class="category-grid">
-            <div class="cat-card cat-purple">
-                <i class="fa-solid fa-gamepad"></i>
-                <div>
-                    <h3>شحن ألعاب</h3>
-                    <p>ببجي، فري فاير، إلخ</p>
+        <!-- البنر العلوي للرصيد السريع -->
+        <div class="hero-user-card">
+            <div class="hero-top">
+                <div class="user-avatar-wrapper">
+                    <div class="user-avatar" id="home-avatar">U</div>
+                    <div class="user-meta">
+                        <h3 id="home-username">مستخدم جديد</h3>
+                        <p id="home-userid">ID: ------</p>
+                    </div>
                 </div>
             </div>
-            <div class="cat-card cat-blue">
-                <i class="fa-solid fa-credit-card"></i>
-                <div>
-                    <h3>بطاقات رقمية</h3>
-                    <p>جوجل بلاي، آيتونز</p>
+            <div class="balance-box">
+                <p>الرصيد المتاح</p>
+                <h2 id="home-balance">0.00 $</h2>
+            </div>
+            <div class="hero-actions">
+                <button class="btn-light" onclick="navigateTo('recharge-page')">
+                    <i class="fa-solid fa-plus-circle"></i> شحن الرصيد
+                </button>
+                <button class="btn-light" style="background: rgba(255,255,255,0.2); color: white;" onclick="navigateTo('orders-page')">
+                    <i class="fa-solid fa-receipt"></i> طلباتي
+                </button>
+            </div>
+        </div>
+
+        <!-- أقسام المتجر -->
+        <div class="section-header">
+            <h3><i class="fa-solid fa-border-all" style="color: var(--accent-blue);"></i> أقسام الخدمات</h3>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card" onclick="openModal('قسم ألعاب الفيديو', 'يمكنك اختيار اللعبة المطلوبة (PUBG, Free Fire, Mobile Legends...) للشحن الفوري.')">
+                <div class="service-icon bg-purple"><i class="fa-solid fa-gamepad"></i></div>
+                <div class="service-info">
+                    <h4>شحن ألعاب</h4>
+                    <p>شدات، جواهر، كروت ألعاب</p>
                 </div>
             </div>
-            <div class="cat-card cat-green">
-                <i class="fa-solid fa-mobile-screen"></i>
-                <div>
-                    <h3>رصيد شبكات</h3>
-                    <p>سيريتل، إم تي إن</p>
+
+            <div class="service-card" onclick="openModal('قسم البطاقات الرقمية', 'يتوفر بطاقات Google Play, iTunes, PlayStation, Xbox بأفضل الأسعار.')">
+                <div class="service-icon bg-blue"><i class="fa-solid fa-credit-card"></i></div>
+                <div class="service-info">
+                    <h4>بطاقات رقمية</h4>
+                    <p>جوجل بلاي، آبل، بلايستيشن</p>
                 </div>
             </div>
-            <div class="cat-card cat-orange">
-                <i class="fa-solid fa-bolt"></i>
-                <div>
-                    <h3>خدمات سريعة</h3>
-                    <p>اشتراكات وتفعيل</p>
+
+            <div class="service-card" onclick="openModal('قسم شبكات الاتصال', 'شحن رصيد سيريتل، إم تي إن، وحدات وفواتير مباشرة.')">
+                <div class="service-icon bg-green"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                <div class="service-info">
+                    <h4>رصيد شبكات</h4>
+                    <p>سيريتل، MTN، وحدات</p>
                 </div>
             </div>
-            <div class="cat-card cat-pink">
-                <i class="fa-solid fa-shield-halved"></i>
-                <div>
-                    <h3>حسابات جاهزة</h3>
-                    <p>حسابات مفعلة وموثقة</p>
+
+            <div class="service-card" onclick="openModal('قسم الاشتراكات', 'تفعيل اشتراكات شاهد VIP، نيتفلكس، وتطبيقات التواصل.')">
+                <div class="service-icon bg-orange"><i class="fa-solid fa-play"></i></div>
+                <div class="service-info">
+                    <h4>اشتراكات بث</h4>
+                    <p>Shahid VIP, Netflix, IPTV</p>
                 </div>
             </div>
-            <div class="cat-card cat-cyan">
-                <i class="fa-solid fa-headset"></i>
-                <div>
-                    <h3>الدعم الفني</h3>
-                    <p>تواصل مع الفنيين</p>
+
+            <div class="service-card" onclick="openModal('قسم الحسابات الجاهزة', 'شراء حسابات موثقة ومجربة وجاهزة للاستخدام الفوري.')">
+                <div class="service-icon bg-pink"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="service-info">
+                    <h4>حسابات جاهزة</h4>
+                    <p>حسابات ألعاب وتطبيقات</p>
+                </div>
+            </div>
+
+            <div class="service-card" onclick="openModal('الدعم الفني والخدمات', 'تواصل مباشر مع فريق الدعم الفني لحل أي مشكلة.')">
+                <div class="service-icon bg-cyan"><i class="fa-solid fa-headset"></i></div>
+                <div class="service-info">
+                    <h4>الدعم الفني</h4>
+                    <p>خدمة العلاء 24/7</p>
                 </div>
             </div>
         </div>
@@ -451,174 +613,164 @@
 
     <!-- 2. طلباتي -->
     <div id="orders-page" class="page">
-        <div class="page-header">
-            <div>
-                <h2>طلباتي</h2>
-                <p>تابع حالة كل طلب</p>
+        <div class="top-header">
+            <div class="brand-text">
+                <h1>سجل الطلبات</h1>
+                <p>متابعة كافة طلباتك المكتملة والمقيدة</p>
             </div>
-            <div class="back-btn"><i class="fa-solid fa-arrow-right"></i></div>
         </div>
 
-        <div class="date-filters">
-            <div class="date-input">من: <span>2026/09/20 ˅</span></div>
-            <div class="date-input">إلى: <span>2026/09/20 ˅</span></div>
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass" style="color: var(--text-sub);"></i>
+            <input type="text" placeholder="ابحث برقم الطلب أو اسم الخدمة...">
         </div>
 
-        <div class="search-bar-row">
-            <input type="text" class="search-input-box" placeholder="رقم الطلب أو الخدمة...">
-            <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
+        <div class="filter-scroll">
+            <div class="chip active">الكل (0)</div>
+            <div class="chip">قيد الانتظار</div>
+            <div class="chip">مكتملة</div>
+            <div class="chip">ملغية</div>
         </div>
 
-        <div class="filter-tags">
-            <div class="tag active">الكل <span>0</span></div>
-            <div class="tag">مكتمل <span>0</span></div>
-            <div class="tag">انتظار <span>0</span></div>
-            <div class="tag">مرفوض <span>0</span></div>
-        </div>
-
-        <div class="total-box">
-            <span>إجمالي المدفوع:</span>
-            <span class="formatted-currency">0.00 $ <i class="fa-solid fa-wallet"></i></span>
-        </div>
-
-        <div class="empty-orders">
+        <div class="empty-state">
             <i class="fa-solid fa-box-open"></i>
-            <p>لا توجد طلبات في هذا التاريخ.</p>
+            <p>لا توجد أي طلبات مسجلة حتى الآن.</p>
         </div>
     </div>
 
     <!-- 3. شحن الرصيد -->
     <div id="recharge-page" class="page">
-        <div class="page-header">
-            <div>
-                <h2>شحن الرصيد</h2>
-                <p>اختر طريقة الدفع المناسبة لشحن حسابك</p>
+        <div class="top-header">
+            <div class="brand-text">
+                <h1>شحن المحفظة</h1>
+                <p>اختر وسيلة الدفع المناسبة لإضافة رصيد</p>
             </div>
-            <div class="back-btn"><i class="fa-solid fa-arrow-right"></i></div>
         </div>
 
-        <div class="category-grid">
-            <div class="cat-card cat-green">
-                <i class="fa-solid fa-money-bill-transfer"></i>
-                <div>
-                    <h3>شام كاش / سيريتل كاش</h3>
-                    <p>تحويل سريع</p>
+        <div class="services-grid" style="grid-template-columns: 1fr;">
+            <div class="service-card" style="height: auto; padding: 20px;" onclick="openModal('الدفع عبر شام كاش / سيريتل', 'يرجى التحويل إلى الرقم المخصص، ثم رفع رقم العملية للتحقق الآلي.')">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="service-icon bg-green"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                    <div>
+                        <h4 style="font-size: 15px;">شام كاش / سيريتل كاش</h4>
+                        <p style="margin-top: 4px;">تحويل محلي مباشر - إيداع فوري</p>
+                    </div>
                 </div>
             </div>
-            <div class="cat-card cat-blue">
-                <i class="fa-solid fa-coins"></i>
-                <div>
-                    <h3>العملات الرقمية (USDT)</h3>
-                    <p>شبكة TRC20 / BEP20</p>
+
+            <div class="service-card" style="height: auto; padding: 20px; margin-top: 10px;" onclick="openModal('الدفع بالعملات الرقمية (USDT)', 'يدعم شبكة TRC20 و BEP20 لشحن تلقائي وسريع.')">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="service-icon bg-blue"><i class="fa-solid fa-coins"></i></div>
+                    <div>
+                        <h4 style="font-size: 15px;">العملات الرقمية (USDT)</h4>
+                        <p style="margin-top: 4px;">شحن عبر شبكات TRC20 / BEP20</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 4. الشحنات -->
+    <!-- 4. سجل الشحنات -->
     <div id="history-page" class="page">
-        <div class="page-header">
-            <div>
-                <h2>سجل الشحنات</h2>
-                <p>سجل عمليات الإيداع السابقة</p>
+        <div class="top-header">
+            <div class="brand-text">
+                <h1>سجل الشحنات</h1>
+                <p>عمليات إيداع الرصيد في حسابك</p>
             </div>
-            <div class="back-btn"><i class="fa-solid fa-arrow-right"></i></div>
         </div>
 
-        <div class="empty-orders">
+        <div class="empty-state">
             <i class="fa-solid fa-clock-rotate-left"></i>
-            <p>لا توجد عمليات شحن سابقة.</p>
+            <p>لا توجد عمليات إيداع أو شحن سابقة.</p>
         </div>
     </div>
 
     <!-- 5. حسابي -->
-    <div id="profile-page" class="page active">
-        <div class="page-header">
-            <div>
-                <h2>حسابي</h2>
-                <p>بياناتك وعضويتك وعملتك</p>
+    <div id="profile-page" class="page">
+        <div class="top-header">
+            <div class="brand-text">
+                <h1>الملف الشخصي</h1>
+                <p>إعدادات الحساب وتخصيص العملة</p>
             </div>
-            <div class="back-btn"><i class="fa-solid fa-arrow-right"></i></div>
         </div>
 
-        <div class="user-card">
-            <div class="user-info">
-                <div class="user-details">
-                    <p>أهلاً بك في Cyber store</p>
-                    <h3 id="user-name">Mareeeo Faser</h3>
-                    <p id="user-id">ID: 7495506408</p>
+        <div class="settings-card">
+            <div class="settings-info">
+                <div class="settings-icon"><i class="fa-solid fa-user"></i></div>
+                <div class="settings-text">
+                    <h4 id="prof-username">الاسم</h4>
+                    <p id="prof-userid">ID: ------</p>
                 </div>
-                <div class="avatar" id="avatar-letters">MF</div>
             </div>
-            <div class="balance-section">
-                <div>
-                    <p style="font-size: 11px; opacity: 0.8;">رصيدك الحالي</p>
-                    <div class="balance-amount" id="user-balance">0.00 $</div>
+        </div>
+
+        <div class="settings-card">
+            <div class="settings-info">
+                <div class="settings-icon"><i class="fa-solid fa-coins"></i></div>
+                <div class="settings-text">
+                    <h4>العملة المفضلة</h4>
+                    <p>تغيير رمز العرض للرصيد</p>
                 </div>
-                <!-- التغيير الأول: ينقل قسم شحن عند الضغط -->
-                <button class="recharge-btn" onclick="goToRecharge()"><i class="fa-solid fa-wallet"></i> شحن الرصيد</button>
             </div>
+            <select id="currency-select" class="custom-select">
+                <option value="$">الدولار ($)</option>
+                <option value="ل.س">الليرة السورية (ل.س)</option>
+            </select>
         </div>
 
-        <div class="row-grid">
-            <div class="info-card">
-                <i class="fa-solid fa-award" style="color: #cd7f32; font-size: 24px;"></i>
-                <h4 style="color:white; font-size:14px;">عضوية برونزي</h4>
-                <p style="font-size: 10px;">العضوية الافتراضية لكل عميل جديد.</p>
-            </div>
-            <div class="info-card">
-                <i class="fa-solid fa-right-left" style="color: var(--accent-blue); font-size: 20px;"></i>
-                <h4 style="color:white; font-size:13px;">العملة المفضلة</h4>
-                <select id="currency-select">
-                    <option value="$">الدولار الأميركي ($)</option>
-                    <option value="ل.س">الليرة السورية (ل.س)</option>
-                </select>
-                <!-- التغيير الثاني: لا يتم التغيير إلا عند الضغط هنا -->
-                <button class="action-btn" onclick="saveCurrency()">حفظ العملة</button>
-            </div>
+        <div style="text-align: left; margin-bottom: 15px;">
+            <button class="btn-action" onclick="saveCurrencySettings()">حفظ العملة المختارة</button>
         </div>
 
-        <!-- التغيير الثالث: تصفير الأرقام والإحصائيات -->
-        <div class="stats-grid">
-            <div class="stat-card">
+        <div class="stats-container">
+            <div class="stat-box">
                 <i class="fa-solid fa-bag-shopping"></i>
                 <h4 id="stat-orders">0</h4>
-                <p>طلب مسبق</p>
+                <p>الطلبات</p>
             </div>
-            <div class="stat-card">
+            <div class="stat-box">
                 <i class="fa-solid fa-wallet"></i>
                 <h4 id="stat-recharges">0</h4>
-                <p>عملية شحن</p>
+                <p>الشحنات</p>
             </div>
-            <div class="stat-card">
-                <i class="fa-solid fa-coins"></i>
+            <div class="stat-box">
+                <i class="fa-solid fa-chart-line"></i>
                 <h4 id="stat-spending">0.00 $</h4>
-                <p>إجمالي الإنفاق</p>
+                <p>الإنفاق</p>
             </div>
         </div>
     </div>
 
-    <!-- الشريط السفلي -->
+    <!-- القائمة السفلية -->
     <div class="bottom-nav">
-        <div class="nav-item" onclick="switchPage('home-page', this)">
+        <div class="nav-btn active" id="btn-home" onclick="navigateTo('home-page')">
             <i class="fa-solid fa-house"></i>
             <span>الرئيسية</span>
         </div>
-        <div class="nav-item" onclick="switchPage('orders-page', this)">
+        <div class="nav-btn" id="btn-orders" onclick="navigateTo('orders-page')">
             <i class="fa-solid fa-bag-shopping"></i>
             <span>طلباتي</span>
         </div>
-        <div class="nav-item" id="nav-recharge" onclick="switchPage('recharge-page', this)">
-            <i class="fa-solid fa-wallet"></i>
+        <div class="nav-btn" id="btn-recharge" onclick="navigateTo('recharge-page')">
+            <i class="fa-solid fa-circle-plus"></i>
             <span>شحن</span>
         </div>
-        <div class="nav-item" onclick="switchPage('history-page', this)">
+        <div class="nav-btn" id="btn-history" onclick="navigateTo('history-page')">
             <i class="fa-solid fa-clock-rotate-left"></i>
             <span>الشحنات</span>
         </div>
-        <div class="nav-item active" onclick="switchPage('profile-page', this)">
+        <div class="nav-btn" id="btn-profile" onclick="navigateTo('profile-page')">
             <i class="fa-solid fa-user"></i>
             <span>حسابي</span>
+        </div>
+    </div>
+
+    <!-- Modal dialog -->
+    <div class="modal-overlay" id="custom-modal">
+        <div class="modal-card">
+            <h3 id="modal-title">العنوان</h3>
+            <p id="modal-desc">التفاصيل هنا...</p>
+            <button class="modal-close" onclick="closeModal()">حسناً، فهمت</button>
         </div>
     </div>
 
@@ -626,59 +778,62 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        let currentSymbol = "$";
+        let activeSymbol = "$";
 
-        // بيانات المستخدم من تليجرام
+        // تهيئة بيانات المستخدم من تليجرام
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
-            const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
-            document.getElementById('user-name').innerText = fullName || "مستخدم جديد";
-            document.getElementById('user-id').innerText = `ID: ${user.id}`;
+            const name = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'مستخدم جديد';
             
-            const firstLetter = user.first_name ? user.first_name[0] : 'U';
-            const lastLetter = user.last_name ? user.last_name[0] : '';
-            document.getElementById('avatar-letters').innerText = (firstLetter + lastLetter).toUpperCase();
+            document.getElementById('home-username').innerText = name;
+            document.getElementById('prof-username').innerText = name;
+            document.getElementById('home-userid').innerText = `ID: ${user.id}`;
+            document.getElementById('prof-userid').innerText = `ID: ${user.id}`;
+
+            const initial = user.first_name ? user.first_name[0].toUpperCase() : 'U';
+            document.getElementById('home-avatar').innerText = initial;
         }
 
-        function switchPage(pageId, element) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+        // التنقل بين الصفحات
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
 
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) targetPage.classList.add('active');
-            
-            if (element) {
-                element.classList.add('active');
+            document.getElementById(pageId).classList.add('active');
+
+            const btnMap = {
+                'home-page': 'btn-home',
+                'orders-page': 'btn-orders',
+                'recharge-page': 'btn-recharge',
+                'history-page': 'btn-history',
+                'profile-page': 'btn-profile'
+            };
+
+            if (btnMap[pageId]) {
+                document.getElementById(btnMap[pageId]).classList.add('active');
             }
         }
 
-        // الانتقال لصفحة الشحن عند الضغط على الزر داخل بطاقة حسابي
-        function goToRecharge() {
-            const rechargeNavItem = document.getElementById('nav-recharge');
-            switchPage('recharge-page', rechargeNavItem);
-        }
-
-        // حفظ العملة وتطبيقها فقط بعد الضغط على الزر
-        function saveCurrency() {
+        // حفظ العملة
+        function saveCurrencySettings() {
             const select = document.getElementById('currency-select');
-            currentSymbol = select.value;
+            activeSymbol = select.value;
 
-            document.getElementById('user-balance').innerText = `0.00 ${currentSymbol}`;
-            document.getElementById('stat-spending').innerText = `0.00 ${currentSymbol}`;
+            document.getElementById('home-balance').innerText = `0.00 ${activeSymbol}`;
+            document.getElementById('stat-spending').innerText = `0.00 ${activeSymbol}`;
 
-            document.querySelectorAll('.formatted-currency').forEach(el => {
-                el.innerHTML = `0.00 ${currentSymbol} <i class="fa-solid fa-wallet"></i>`;
-            });
+            openModal('تم الحفظ', `تم تغيير العملة المفضلة إلى (${activeSymbol}) بنجاح.`);
+        }
 
-            if (tg.showPopup) {
-                tg.showPopup({
-                    title: 'تم الحفظ',
-                    message: `تم تغيير العملة المفضلة إلى (${currentSymbol}) بنجاح.`,
-                    buttons: [{ type: 'ok' }]
-                });
-            } else {
-                alert(`تم تغيير العملة إلى (${currentSymbol}) بنجاح.`);
-            }
+        // إدارة النوافذ المنبثقة
+        function openModal(title, text) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = text;
+            document.getElementById('custom-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('custom-modal').style.display = 'none';
         }
     </script>
 </body>
