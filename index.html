@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Store</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+    body { background-color: #0d1117; color: #ffffff; padding-bottom: 70px; }
+    header { padding: 15px; text-align: center; background: #161b22; border-bottom: 1px solid #30363d; }
+    .search-bar { margin: 15px; }
+    .search-bar input { width: 100%; padding: 12px; border-radius: 25px; border: 1px solid #30363d; background: #161b22; color: #fff; text-align: center; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 15px 5px; text-align: center; font-size: 12px; cursor: pointer; }
+    .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #161b22; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #30363d; }
+    .nav-item { color: #8b949e; text-decoration: none; font-size: 12px; }
+    .nav-item.active { color: #58a6ff; }
+  </style>
+</head>
+<body>
+  <header><h3>أهلاً وسهلاً بكم في متجر Cyber Store</h3></header>
+  <div class="search-bar"><input type="text" placeholder="بحث..."></div>
+  <div class="grid">
+    <div class="card">💎<br>الأرصدة والعملات</div>
+    <div class="card">🎮<br>قسم الألعاب</div>
+    <div class="card">🌐<br>قسم التطبيقات</div>
+    <div class="card">📺<br>اشتراكات TV</div>
+    <div class="card">📞<br>قسم الأرقام</div>
+    <div class="card">👤<br>حسابات جاهزة</div>
+  </div>
+  <div class="bottom-nav">
+    <a href="#" class="nav-item active">الرئيسية</a>
+    <a href="#" class="nav-item">طلباتي</a>
+    <a href="#" class="nav-item">شحن</a>
+    <a href="#" class="nav-item">حسابي</a>
+  </div>
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+  </script>
+</body>
+  </html>
+      
