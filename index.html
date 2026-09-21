@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYBER STORE</title>
-    <!-- خط Cairo -->
+    <title>شحن التطبيقات - CYBER STORE</title>
+    <!-- خط Cairo والأيقونات -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- أيقونات FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
             --bg-color: #0b0f19;
             --card-bg: #151c2e;
-            --primary-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
+            --accent-purple: #7c3aed;
             --accent-blue: #3b82f6;
             --text-main: #ffffff;
             --text-sub: #9ca3af;
-            --green-status: #10b981;
+            --input-bg: #1e293b;
         }
 
         * {
@@ -25,7 +24,6 @@
             margin: 0;
             padding: 0;
             font-family: 'Cairo', sans-serif;
-            user-select: none;
         }
 
         body {
@@ -33,356 +31,295 @@
             color: var(--text-main);
             display: flex;
             justify-content: center;
-            align-items: flex-start;
             min-height: 100vh;
-            padding-bottom: 80px;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 480px;
             padding: 16px;
         }
 
-        /* الهيدر العلوي */
-        .header {
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        /* الهيدر */
+        .page-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
             margin-bottom: 20px;
         }
 
-        .status-badge {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--green-status);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+        .back-btn {
+            background: var(--card-bg);
+            border: none;
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
         }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--green-status);
-            border-radius: 50%;
-        }
-
-        .brand h1 {
+        .page-title {
             font-size: 1.2rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-weight: 700;
         }
 
-        .brand p {
-            font-size: 0.75rem;
+        /* اختيار التطبيق */
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 10px;
             color: var(--text-sub);
         }
 
-        /* بطاقة المحفظة */
-        .balance-card {
-            background: var(--primary-gradient);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
+        .apps-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .app-item {
+            min-width: 80px;
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .app-item.active {
+            border-color: var(--accent-purple);
+            background: rgba(124, 58, 237, 0.15);
+        }
+
+        .app-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .app-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* حقل الآيدي ID */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 16px;
+            padding-left: 40px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .input-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-sub);
+        }
+
+        /* شبكة باقات الشحن */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
             margin-bottom: 24px;
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .avatar {
-            width: 46px;
-            height: 46px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            backdrop-filter: blur(5px);
-        }
-
-        .user-details h3 {
-            font-size: 1rem;
-            font-weight: 700;
-        }
-
-        .user-details span {
-            font-size: 0.75rem;
-            opacity: 0.8;
-        }
-
-        .balance-section {
-            text-align: center;
-            margin: 15px 0 20px 0;
-        }
-
-        .balance-title {
-            font-size: 0.8rem;
-            opacity: 0.85;
-        }
-
-        .balance-amount {
-            font-size: 2.2rem;
-            font-weight: 800;
-        }
-
-        .card-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .btn {
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-white {
-            background: #ffffff;
-            color: #4f46e5;
-        }
-
-        .btn-glass {
-            background: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            backdrop-filter: blur(5px);
-        }
-
-        .btn:active {
-            transform: scale(0.96);
-        }
-
-        .section-title {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* شبكة الخدمات - تكبير الأيقونات */
-        .services-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .service-card {
+        .pkg-card {
             background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 18px;
-            padding: 18px 14px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 14px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: 0.2s;
+            position: relative;
         }
 
-        .service-card:active {
-            transform: scale(0.96);
+        .pkg-card.selected {
             border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.1);
         }
 
-        /* حجم الأيقونة أكبر */
-        .service-icon {
-            width: 62px;
-            height: 62px;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-        }
-
-        .icon-purple { background: rgba(124, 58, 237, 0.18); color: #a78bfa; }
-        .icon-blue { background: rgba(59, 130, 246, 0.18); color: #60a5fa; }
-        .icon-green { background: rgba(16, 185, 129, 0.18); color: #34d399; }
-        .icon-orange { background: rgba(245, 158, 11, 0.18); color: #fbbf24; }
-
-        .service-card h4 {
-            font-size: 0.95rem;
-            font-weight: 700;
+        .pkg-amount {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
             margin-bottom: 4px;
         }
 
-        .service-card p {
-            font-size: 0.72rem;
-            color: var(--text-sub);
-        }
-
-        /* القائمة السفلي */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background: #0f1523;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-sub);
-            text-decoration: none;
-            font-size: 0.72rem;
-            gap: 4px;
-            cursor: pointer;
-        }
-
-        .nav-item.active {
+        .pkg-price {
+            font-size: 0.85rem;
             color: var(--accent-blue);
+            font-weight: 700;
         }
 
-        .nav-item i {
-            font-size: 1.2rem;
+        /* زر التأكيد */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        
-        <header class="header">
-            <div class="status-badge">
-                <span class="status-dot"></span> متصل
-            </div>
-            <div class="brand">
-                <h1><i class="fa-solid fa-bolt" style="color: #8b5cf6;"></i> CYBER STORE</h1>
-                <p>متجر الخدمات الرقمية المباشرة</p>
-            </div>
-        </header>
-
-        <div class="balance-card">
-            <div class="user-info">
-                <div class="avatar">M</div>
-                <div class="user-details">
-                    <h3>Mareeeo Faser</h3>
-                    <span>ID: 7495506408</span>
-                </div>
-            </div>
-            <div class="balance-section">
-                <div class="balance-title">الرصيد المتاح</div>
-                <div class="balance-amount">0.00 <span style="font-size: 1.1rem;">ل.س</span></div>
-            </div>
-            <div class="card-actions">
-                <button class="btn btn-white" onclick="handleAction('شحن الرصيد')">
-                    <i class="fa-solid fa-circle-plus"></i> شحن الرصيد
-                </button>
-                <button class="btn btn-glass" onclick="handleAction('طلباتي')">
-                    <i class="fa-solid fa-receipt"></i> طلباتي
-                </button>
-            </div>
-        </div>
-
-        <div class="section-title">
-            <i class="fa-solid fa-border-all" style="color: var(--accent-blue);"></i> أقسام الخدمات
-        </div>
-
-        <div class="services-grid">
-            <div class="service-card" onclick="openCategory('شحن ألعاب')">
-                <div class="service-icon icon-purple">
-                    <i class="fa-solid fa-gamepad"></i>
-                </div>
-                <h4>شحن ألعاب</h4>
-                <p>شدات، جواهر، كروت ألعاب</p>
-            </div>
-
-            <div class="service-card" onclick="openCategory('بطاقات رقمية')">
-                <div class="service-icon icon-blue">
-                    <i class="fa-solid fa-credit-card"></i>
-                </div>
-                <h4>بطاقات رقمية</h4>
-                <p>جوجل بلاي، آبل، بلايستيشن</p>
-            </div>
-
-            <div class="service-card" onclick="openCategory('رصيد شبكات')">
-                <div class="service-icon icon-green">
-                    <i class="fa-solid fa-mobile-screen-button"></i>
-                </div>
-                <h4>رصيد شبكات</h4>
-                <p>سيريتل، MTN، وحدات</p>
-            </div>
-
-            <div class="service-card" onclick="openCategory('اشتراكات بث')">
-                <div class="service-icon icon-orange">
-                    <i class="fa-solid fa-circle-play"></i>
-                </div>
-                <h4>اشتراكات بث</h4>
-                <p>Shahid VIP, Netflix, IPTV</p>
-            </div>
-        </div>
-
+<div class="container">
+    
+    <!-- رأس الصفحة -->
+    <div class="page-header">
+        <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-arrow-right"></i></button>
+        <div class="page-title">شحن التطبيقات والألعاب</div>
     </div>
 
-    <nav class="bottom-nav">
-        <div class="nav-item active" onclick="handleNav('الرئيسية')">
-            <i class="fa-solid fa-house"></i>
-            <span>الرئيسية</span>
+    <!-- 1. اختيار التطبيق -->
+    <div class="section-label">اختر التطبيق / اللعبة:</div>
+    <div class="apps-scroll">
+        <div class="app-item active" onclick="selectApp(this, 'ببجي موبايل')">
+            <div class="app-icon" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">
+                <i class="fa-solid fa-crosshairs"></i>
+            </div>
+            <span class="app-name">PUBG</span>
         </div>
-        <div class="nav-item" onclick="handleNav('طلباتي')">
-            <i class="fa-solid fa-box"></i>
-            <span>طلباتي</span>
-        </div>
-        <div class="nav-item" onclick="handleNav('شحن')">
-            <i class="fa-solid fa-plus-circle"></i>
-            <span>شحن</span>
-        </div>
-        <div class="nav-item" onclick="handleNav('الشحنات')">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            <span>الشحنات</span>
-        </div>
-        <div class="nav-item" onclick="handleNav('حسابي')">
-            <i class="fa-solid fa-user"></i>
-            <span>حسابي</span>
-        </div>
-    </nav>
 
-    <script>
-        // برمجيات التفاعل للضغط
-        function openCategory(categoryName) {
-            alert('تم اختيار قسم: ' + categoryName + '\nسيتم تحويلك إلى قائمة الخدمات المتاحة.');
+        <div class="app-item" onclick="selectApp(this, 'فري فاير')">
+            <div class="app-icon" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">
+                <i class="fa-solid fa-fire"></i>
+            </div>
+            <span class="app-name">Free Fire</span>
+        </div>
+
+        <div class="app-item" onclick="selectApp(this, 'تيك توك')">
+            <div class="app-icon" style="background: rgba(236, 72, 153, 0.2); color: #ec4899;">
+                <i class="fa-brands fa-tiktok"></i>
+            </div>
+            <span class="app-name">TikTok</span>
+        </div>
+
+        <div class="app-item" onclick="selectApp(this, 'يلا لودو')">
+            <div class="app-icon" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">
+                <i class="fa-solid fa-dice"></i>
+            </div>
+            <span class="app-name">Yalla Ludo</span>
+        </div>
+    </div>
+
+    <!-- 2. أدخل معرف الحساب -->
+    <div class="form-group">
+        <div class="section-label">رقم المعرف (Player ID / Username):</div>
+        <div class="input-box">
+            <input type="text" id="userId" placeholder="أدخل ID الحساب هنا...">
+            <i class="fa-solid fa-id-card"></i>
+        </div>
+    </div>
+
+    <!-- 3. اختيار الباقة -->
+    <div class="section-label">اختر الباقة المناسبة:</div>
+    <div class="packages-grid">
+        <div class="pkg-card selected" onclick="selectPackage(this, '60 UC / جواهر', '15,000 ل.س')">
+            <div class="pkg-amount">60 UC</div>
+            <div class="pkg-price">15,000 ل.س</div>
+        </div>
+
+        <div class="pkg-card" onclick="selectPackage(this, '325 UC / جواهر', '75,000 ل.س')">
+            <div class="pkg-amount">325 UC</div>
+            <div class="pkg-price">75,000 ل.س</div>
+        </div>
+
+        <div class="pkg-card" onclick="selectPackage(this, '660 UC / جواهر', '140,000 ل.س')">
+            <div class="pkg-amount">660 UC</div>
+            <div class="pkg-price">140,000 ل.س</div>
+        </div>
+
+        <div class="pkg-card" onclick="selectPackage(this, '1800 UC / جواهر', '370,000 ل.س')">
+            <div class="pkg-amount">1800 UC</div>
+            <div class="pkg-price">370,000 ل.س</div>
+        </div>
+    </div>
+
+    <!-- 4. زر الإرسال -->
+    <button class="submit-btn" onclick="submitOrder()">
+        <i class="fa-solid fa-bolt"></i> تأكيد وإرسال الطلب
+    </button>
+
+</div>
+
+<script>
+    let selectedApp = 'ببجي موبايل';
+    let selectedPkg = '60 UC / جواهر';
+    let selectedPrice = '15,000 ل.س';
+
+    function selectApp(element, appName) {
+        document.querySelectorAll('.app-item').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+        selectedApp = appName;
+    }
+
+    function selectPackage(element, pkgName, price) {
+        document.querySelectorAll('.pkg-card').forEach(el => el.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedPkg = pkgName;
+        selectedPrice = price;
+    }
+
+    function submitOrder() {
+        const id = document.getElementById('userId').value.trim();
+        if (!id) {
+            alert('يرجى كتابة رقم الـ ID أو اسم المستخدم الخاص بالحساب أولاً!');
+            return;
         }
 
-        function handleAction(actionName) {
-            alert('طلب إجراء: ' + actionName);
-        }
-
-        function handleNav(pageName) {
-            alert('الانتقال إلى صفحة: ' + pageName);
-        }
-    </script>
+        alert(`تم استلام طلبك بنجاح!
+-----------------------
+التطبيق: ${selectedApp}
+الـ ID: ${id}
+الباقة: ${selectedPkg}
+السعر: ${selectedPrice}`);
+    }
+</script>
 
 </body>
 </html>
