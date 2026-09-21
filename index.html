@@ -3,323 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شحن التطبيقات - CYBER STORE</title>
-    <!-- خط Cairo والأيقونات -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>متجر شحن الألعاب والبطاقات الرقمية</title>
+    <!-- خط Google Cairo المفضل للواجهات العربية -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #151c2e;
-            --accent-purple: #7c3aed;
-            --accent-blue: #3b82f6;
-            --text-main: #ffffff;
-            --text-sub: #9ca3af;
-            --input-bg: #1e293b;
+            --primary-color: #6366f1;
+            --secondary-color: #4f46e5;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent-color: #10b981;
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            padding-bottom: 60px;
+        }
+
+        /* الهيدر ونظام العملات */
+        header {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
             display: flex;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 16px;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .container {
-            width: 100%;
-            max-width: 480px;
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
         }
 
-        /* الهيدر */
-        .page-header {
+        .currency-settings {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
         }
 
-        .back-btn {
-            background: var(--card-bg);
-            border: none;
-            color: var(--text-main);
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        select {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+            padding: 5px 10px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1.1rem;
         }
 
-        .page-title {
-            font-size: 1.2rem;
-            font-weight: 700;
+        .btn-save {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
         }
 
-        /* اختيار التطبيق */
-        .section-label {
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--text-sub);
+        .btn-save:hover {
+            opacity: 0.9;
         }
 
-        .apps-scroll {
+        /* القائمة العلوية للتنقل بين الأيقونات */
+        .nav-tabs {
             display: flex;
-            gap: 12px;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.5);
             overflow-x: auto;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
         }
 
-        .app-item {
-            min-width: 80px;
+        .tab-btn {
             background: var(--card-bg);
+            color: var(--text-color);
             border: 2px solid transparent;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+        }
+
+        /* حاويات المحتوى */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* تصميم كروت الشحن */
+        .item-card {
+            background-color: var(--card-bg);
             border-radius: 16px;
-            padding: 12px 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: 0.2s;
         }
 
-        .app-item.active {
-            border-color: var(--accent-purple);
-            background: rgba(124, 58, 237, 0.15);
+        .item-card:hover {
+            transform: translateY(-5px);
         }
 
-        .app-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
+        .item-image {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(45deg, #1e1b4b, #311042);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 40px;
         }
 
-        .app-name {
-            font-size: 0.75rem;
+        .item-details {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .item-price {
+            font-size: 16px;
+            color: var(--accent-color);
             font-weight: 600;
+            margin-bottom: 15px;
         }
 
-        /* حقل الآيدي ID */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .input-box {
-            position: relative;
-        }
-
-        .input-box input {
-            width: 100%;
-            background: var(--input-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 14px 16px;
-            padding-left: 40px;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .input-box i {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-sub);
-        }
-
-        /* شبكة باقات الشحن */
-        .packages-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .pkg-card {
-            background: var(--card-bg);
-            border: 2px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 14px;
-            cursor: pointer;
-            transition: 0.2s;
-            position: relative;
-        }
-
-        .pkg-card.selected {
-            border-color: var(--accent-blue);
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .pkg-amount {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-
-        .pkg-price {
-            font-size: 0.85rem;
-            color: var(--accent-blue);
-            font-weight: 700;
-        }
-
-        /* زر التأكيد */
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-            color: #fff;
-            border: none;
-            padding: 16px;
-            border-radius: 14px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
+        .quantity-selector {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        .submit-btn:active {
-            transform: scale(0.98);
+        .quantity-selector input {
+            width: 60px;
+            padding: 5px;
+            background: var(--dark-bg);
+            border: 1px solid #475569;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        /* نافذة الدفع (البوب أب) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            background: var(--dark-bg);
+            border: 1px solid #475569;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .invoice-summary {
+            background: rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-cancel {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            flex: 1;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    
-    <!-- رأس الصفحة -->
-    <div class="page-header">
-        <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-arrow-right"></i></button>
-        <div class="page-title">شحن التطبيقات والألعاب</div>
+    <!-- الهيدر ونظام حفظ العملات -->
+    <header>
+        <div class="logo">🎮 متجر الشحن السريع</div>
+        <div class="currency-settings">
+            <label for="currencySelect">العملة:</label>
+            <select id="currencySelect">
+                <option value="USD" data-symbol="$" data-rate="1">USD ($)</option>
+                <option value="SAR" data-symbol="ر.س" data-rate="3.75">SAR (ر.س)</option>
+                <option value="EGP" data-symbol="ج.م" data-rate="47">EGP (ج.م)</option>
+            </select>
+            <button class="btn-save" onclick="saveCurrencySettings()">حفظ</button>
+        </div>
+    </header>
+
+    <!-- أزرار التنقل بين الأيقونات والأقسام -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('games')">🕹️ شحن ألعاب</button>
+        <button class="tab-btn" onclick="switchTab('cards')">💳 بطاقات رقمية</button>
+        <button class="tab-btn" onclick="switchTab('deposit')">💰 إيداع رصيد</button>
     </div>
 
-    <!-- 1. اختيار التطبيق -->
-    <div class="section-label">اختر التطبيق / اللعبة:</div>
-    <div class="apps-scroll">
-        <div class="app-item active" onclick="selectApp(this, 'ببجي موبايل')">
-            <div class="app-icon" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">
-                <i class="fa-solid fa-crosshairs"></i>
+    <!-- محتوى الأقسام -->
+    <div class="container">
+        
+        <!-- قسم الألعاب -->
+        <div id="games" class="tab-content active">
+            <!-- كرت ببجي -->
+            <div class="item-card" data-base-price="10">
+                <div class="item-image">🔫</div>
+                <div class="item-details">
+                    <div class="item-title">شدات ببجي موبايل (660 UC)</div>
+                    <div class="item-price">السعر: <span class="price-val">10</span> <span class="curr-symbol">$</span></div>
+                    <div class="quantity-selector">
+                        <label>الكمية:</label>
+                        <input type="number" value="1" min="1" onchange="calculateItemPrice(this)">
+                    </div>
+                    <button class="btn-buy" onclick="openCheckout('شدات ببجي موبايل (660 UC)', this)">شحن الآن</button>
+                </div>
             </div>
-            <span class="app-name">PUBG</span>
-        </div>
 
-        <div class="app-item" onclick="selectApp(this, 'فري فاير')">
-            <div class="app-icon" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">
-                <i class="fa-solid fa-fire"></i>
+            <!-- كرت فري فاير -->
+            <div class="item-card" data-base-price="5">
+                <div class="item-image">🔥</div>
+                <div class="item-details">
+                    <div class="item-title">جواهر فري فاير (530 جوهرة)</div>
+                    <div class="item-price">السعر: <span class="price-val">5</span> <span class="curr-symbol">$</span></div>
+                    <div class="quantity-selector">
+                        <label>الكمية:</label>
+                        <input type="number" value="1" min="1" onchange="calculateItemPrice(this)">
+                    </div>
+                    <button class="btn-buy" onclick="openCheckout('جواهر فري فاير (530 جوهرة)', this)">شحن الآن</button>
+                </div>
             </div>
-            <span class="app-name">Free Fire</span>
         </div>
 
-        <div class="app-item" onclick="selectApp(this, 'تيك توك')">
-            <div class="app-icon" style="background: rgba(236, 72, 153, 0.2); color: #ec4899;">
-                <i class="fa-brands fa-tiktok"></i>
-            </div>
-            <span class="app-name">TikTok</span>
-        </div>
-
-        <div class="app-item" onclick="selectApp(this, 'يلا لودو')">
-            <div class="app-icon" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">
-                <i class="fa-solid fa-dice"></i>
-            </div>
-            <span class="app-name">Yalla Ludo</span>
-        </div>
-    </div>
-
-    <!-- 2. أدخل معرف الحساب -->
-    <div class="form-group">
-        <div class="section-label">رقم المعرف (Player ID / Username):</div>
-        <div class="input-box">
-            <input type="text" id="userId" placeholder="أدخل ID الحساب هنا...">
-            <i class="fa-solid fa-id-card"></i>
-        </div>
-    </div>
-
-    <!-- 3. اختيار الباقة -->
-    <div class="section-label">اختر الباقة المناسبة:</div>
-    <div class="packages-grid">
-        <div class="pkg-card selected" onclick="selectPackage(this, '60 UC / جواهر', '15,000 ل.س')">
-            <div class="pkg-amount">60 UC</div>
-            <div class="pkg-price">15,000 ل.س</div>
-        </div>
-
-        <div class="pkg-card" onclick="selectPackage(this, '325 UC / جواهر', '75,000 ل.س')">
-            <div class="pkg-amount">325 UC</div>
-            <div class="pkg-price">75,000 ل.س</div>
-        </div>
-
-        <div class="pkg-card" onclick="selectPackage(this, '660 UC / جواهر', '140,000 ل.س')">
-            <div class="pkg-amount">660 UC</div>
-            <div class="pkg-price">140,000 ل.س</div>
-        </div>
-
-        <div class="pkg-card" onclick="selectPackage(this, '1800 UC / جواهر', '370,000 ل.س')">
-            <div class="pkg-amount">1800 UC</div>
-            <div class="pkg-price">370,000 ل.س</div>
-        </div>
-    </div>
-
-    <!-- 4. زر الإرسال -->
-    <button class="submit-btn" onclick="submitOrder()">
-        <i class="fa-solid fa-bolt"></i> تأكيد وإرسال الطلب
-    </button>
-
-</div>
-
-<script>
-    let selectedApp = 'ببجي موبايل';
-    let selectedPkg = '60 UC / جواهر';
-    let selectedPrice = '15,000 ل.س';
-
-    function selectApp(element, appName) {
-        document.querySelectorAll('.app-item').forEach(el => el.classList.remove('active'));
-        element.classList.add('active');
-        selectedApp = appName;
-    }
-
-    function selectPackage(element, pkgName, price) {
-        document.querySelectorAll('.pkg-card').forEach(el => el.classList.remove('selected'));
-        element.classList.add('selected');
-        selectedPkg = pkgName;
-        selectedPrice = price;
-    }
-
-    function submitOrder() {
-        const id = document.getElementById('userId').value.trim();
-        if (!id) {
-            alert('يرجى كتابة رقم الـ ID أو اسم المستخدم الخاص بالحساب أولاً!');
-            return;
-        }
-
-        alert(`تم استلام طلبك بنجاح!
------------------------
-التطبيق: ${selectedApp}
-الـ ID: ${id}
-الباقة: ${selectedPkg}
-السعر: ${selectedPrice}`);
-    }
-</script>
-
-</body>
-</html>
+        <!-- قسم البطاقات الرقمية -->
+        <div id="cards" class="tab-content">
+            <div class="item-card" data-base-price="15">
+                <div class="item-image">🍏</div>
