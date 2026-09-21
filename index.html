@@ -3,208 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر شحن الألعاب المتكامل مع البوت</title>
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <title>متجر الشحن الإلكتروني | Cyber Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #6366f1;
-            --secondary-color: #4f46e5;
-            --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #f8fafc;
-            --accent-color: #10b981;
+            --bg-color: #0b0f19;
+            --card-bg: #151c2c;
+            --accent-color: #00ff88;
+            --accent-hover: #00cc6a;
+            --text-color: #ffffff;
+            --text-secondary: #94a3b8;
+            --border-color: #2a354f;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-color); padding-bottom: 60px; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
 
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 40px;
+        }
+
+        /* Header */
         header {
-            background-color: var(--card-bg);
+            background: rgba(21, 28, 44, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            position: sticky; top: 0; z-index: 100;
         }
 
-        .logo { font-size: 20px; font-weight: 700; color: var(--primary-color); }
-        .currency-settings { display: flex; align-items: center; gap: 10px; }
-        
-        select, input[type="text"], input[type="number"] {
-            background-color: var(--dark-bg);
-            color: var(--text-color);
-            border: 1px solid #475569;
-            padding: 8px 12px;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .status-badge {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--accent-color);
+        }
+
+        /* Hero Banner */
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: radial-gradient(circle at center, #1e293b 0%, var(--bg-color) 100%);
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Products Grid */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .card img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .card .price {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            width: 100%;
+            padding: 10px;
             border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: #fff;
+            font-size: 1rem;
             outline: none;
         }
-        
-        select:focus, input:focus { border-color: var(--primary-color); }
 
-        .btn-save {
-            background-color: var(--accent-color);
-            color: white; border: none; padding: 6px 12px;
-            border-radius: 8px; cursor: pointer; font-weight: 600;
+        .form-group input:focus {
+            border-color: var(--accent-color);
         }
-
-        .nav-tabs {
-            display: flex; justify-content: center; gap: 15px;
-            padding: 20px; background: rgba(30, 41, 59, 0.5); overflow-x: auto;
-        }
-
-        .tab-btn {
-            background: var(--card-bg); color: var(--text-color); border: 2px solid transparent;
-            padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; white-space: nowrap;
-        }
-
-        .tab-btn.active, .tab-btn:hover { border-color: var(--primary-color); background: var(--primary-color); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .tab-content { display: none; }
-        .tab-content.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-
-        .item-card {
-            background-color: var(--card-bg); border-radius: 16px; overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); display: flex; flex-direction: column;
-        }
-
-        .item-image {
-            width: 100%; height: 150px;
-            background: linear-gradient(135deg, #1e1b4b, #311042);
-            display: flex; align-items: center; justify-content: center; font-size: 50px;
-        }
-
-        .item-details { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .item-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-        .item-price { font-size: 16px; color: var(--accent-color); font-weight: 600; margin-bottom: 15px; }
-        
-        .quantity-selector { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-        .quantity-selector input { width: 70px; text-align: center; }
-
-        .btn-buy {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%;
-        }
-
-        /* النافذة المنبثقة للطلب */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; padding: 20px;
-        }
-
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 16px; max-width: 450px; width: 100%; }
-        .modal-header { font-size: 20px; font-weight: 700; margin-bottom: 15px; color: var(--primary-color); }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 14px; }
-        .form-group input { width: 100%; }
-        .invoice-summary { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 15px; }
-        .modal-actions { display: flex; gap: 10px; }
-        .btn-cancel { background: #64748b; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; flex: 1; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">🎮 متجر الشحن التلقائي</div>
-        <div class="currency-settings">
-            <label>العملة:</label>
-            <select id="currencySelect">
-                <option value="USD" data-symbol="$" data-rate="1">USD ($)</option>
-                <option value="SAR" data-symbol="ر.س" data-rate="3.75">SAR (ر.س)</option>
-                <option value="EGP" data-symbol="ج.م" data-rate="48">EGP (ج.م)</option>
-            </select>
-            <button class="btn-save" onclick="saveCurrencySettings()">حفظ</button>
-        </div>
+        <div class="logo">CYBER STORE</div>
+        <div class="status-badge">● متصل الآن</div>
     </header>
 
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('games')">🕹️ شحن ألعاب</button>
-        <button class="tab-btn" onclick="switchTab('cards')">💳 بطاقات رقمية</button>
-        <button class="tab-btn" onclick="switchTab('deposit')">💰 إيداع رصيد</button>
-    </div>
+    <section class="hero">
+        <h1>متجر الشحن السريع والآمن</h1>
+        <p>اختر الخدمة، أدخل معرف حسابك (ID)، واستلم الطلب فوراً</p>
+    </section>
 
-    <div class="container">
-        <!-- قسم الألعاب -->
-        <div id="games" class="tab-content active">
-            <div class="item-card" data-base-price="10">
-                <div class="item-image">🔫</div>
-                <div class="item-details">
-                    <div class="item-title">شدات ببجي موبايل (660 UC)</div>
-                    <div class="item-price">السعر: <span class="price-val">10</span> <span class="curr-symbol">$</span></div>
-                    <div class="quantity-selector">
-                        <label>الكمية:</label>
-                        <input type="number" value="1" min="1" onchange="calculateItemPrice(this)">
-                    </div>
-                    <button class="btn-buy" onclick="openCheckout('شدات ببجي موبايل (660 UC)', this)">شحن الآن</button>
-                </div>
+    <main class="container">
+        <div class="grid">
+            <!-- منتج 1 -->
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/808/808432.png" alt="Free Fire">
+                <h3>فري فاير - 100-110 جوهرة</h3>
+                <div class="price">$1.00</div>
+                <button class="btn" onclick="openOrderModal('فري فاير - 100 جوهرة', '$1.00')">طلب الآن</button>
             </div>
 
-            <div class="item-card" data-base-price="5">
-                <div class="item-image">🔥</div>
-                <div class="item-details">
-                    <div class="item-title">جواهر فري فاير (530 جوهرة)</div>
-                    <div class="item-price">السعر: <span class="price-val">5</span> <span class="curr-symbol">$</span></div>
-                    <div class="quantity-selector">
-                        <label>الكمية:</label>
-                        <input type="number" value="1" min="1" onchange="calculateItemPrice(this)">
-                    </div>
-                    <button class="btn-buy" onclick="openCheckout('جواهر فري فاير (530 جوهرة)', this)">شحن الآن</button>
-                </div>
+            <!-- منتج 2 -->
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/808/808432.png" alt="Free Fire">
+                <h3>فري فاير - 530 جوهرة</h3>
+                <div class="price">$5.00</div>
+                <button class="btn" onclick="openOrderModal('فري فاير - 530 جوهرة', '$5.00')">طلب الآن</button>
             </div>
-        </div>
 
-        <!-- قسم البطاقات الرقمية -->
-        <div id="cards" class="tab-content">
-            <div class="item-card" data-base-price="15">
-                <div class="item-image">🍏</div>
-                <div class="item-details">
-                    <div class="item-title">بطاقة آيتونز بقيمة 15$</div>
-                    <div class="item-price">السعر: <span class="price-val">15</span> <span class="curr-symbol">$</span></div>
-                    <div class="quantity-selector">
-                        <label>الكمية:</label>
-                        <input type="number" value="1" min="1" onchange="calculateItemPrice(this)">
-                    </div>
-                    <button class="btn-buy" onclick="openCheckout('بطاقة آيتونز بقيمة 15$', this)">شراء البطاقة</button>
-                </div>
+            <!-- منتج 3 -->
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/3408/3408506.png" alt="PUBG">
+                <h3>ببجي موبايل - 60 شدة</h3>
+                <div class="price">$0.99</div>
+                <button class="btn" onclick="openOrderModal('ببجي - 60 شدة', '$0.99')">طلب الآن</button>
+            </div>
+
+            <!-- منتج 4 -->
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/3408/3408506.png" alt="PUBG">
+                <h3>ببجي موبايل - 325 شدة</h3>
+                <div class="price">$4.99</div>
+                <button class="btn" onclick="openOrderModal('ببجي - 325 شدة', '$4.99')">طلب الآن</button>
             </div>
         </div>
+    </main>
 
-        <!-- قسم الإيداع -->
-        <div id="deposit" class="tab-content">
-            <div class="item-card" data-base-price="50">
-                <div class="item-image">💵</div>
-                <div class="item-details">
-                    <div class="item-title">إيداع رصيد مباشر في المحفظة</div>
-                    <div class="item-price">المبلغ: <span class="price-val">50</span> <span class="curr-symbol">$</span></div>
-                    <div class="quantity-selector">
-                        <label>المبلغ الأساسي ومضاعفاته:</label>
-                        <input type="number" value="1" min="1" onchange="calculateItemPrice(this)">
-                    </div>
-                    <button class="btn-buy" onclick="openCheckout('إيداع رصيد مباشر', this)">إتمام الإيداع</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة تأكيد الطلب والدفع -->
-    <div id="checkoutModal" class="modal">
+    <!-- نافذة الشراء (Modal) -->
+    <div class="modal" id="orderModal">
         <div class="modal-content">
-            <div class="modal-header" id="modalProductTitle">اسم المنتج</div>
-            <div class="invoice-summary">
-                <p>الإجمالي المطلوب: <strong id="modalTotalPrice">0</strong></p>
-            </div>
+            <button class="close-btn" onclick="closeOrderModal()">&times;</button>
+            <h2 id="modalTitle" style="margin-bottom: 15px; font-size: 1.3rem;">تأكيد الطلب</h2>
+            
             <div class="form-group">
-                <label>أدخل معرف الحساب الخاص بك (ID / بريد إلكتروني):</label>
-                <input type="text" id="userIdInput" placeholder="مثال: 549302194" required>
+                <label>معرف الحساب (Player ID):</label>
+                <input type="text" id="playerId" placeholder="أدخل ID الخاص بك هنا">
             </div>
-            <div class="modal-actions">
-                <button class="btn-buy" id="submitBtn" onclick="submitOrder()">تأكيد وإرسال للبوت</button>
-                <button class="btn-cancel" onclick="closeCheckout()">إلغاء</button>
+
+            <div class="form-group">
+                <label>اسم الحساب (اختياري):</label>
+                <input type="text" id="playerName" placeholder="اسمك في اللعبة">
             </div>
+
+            <button class="btn" onclick="sendOrder()">إرسال الطلب عبر تليجرام</button>
         </div>
     </div>
 
     <script>
+        let currentProduct = '';
+        let currentPrice = '';
+
+        // ضع يوزر حسابك أو البوت في تليجرام هنا
+        const TELEGRAM_USERNAME = "YourTelegramUsername"; 
+
+        function openOrderModal(product, price) {
+            currentProduct = product;
+            currentPrice = price;
+            document.getElementById('modalTitle').innerText = product + " (" + price + ")";
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function sendOrder() {
+            const id = document.getElementById('playerId').value;
+            const name = document.getElementById('playerName').value || 'غير محدد';
+
+            if (!id) {
+                alert('يرجى إدخال معرف الحساب (ID)');
+                return;
+            }
+
+            const message = `طلب جديد من المتجر:%0A- الخدمة: ${currentProduct}%0A- السعر: ${currentPrice}%0A- ID الحساب: ${id}%0A- اسم الحساب: ${name}`;
+            
+            // التحويل المباشر لتليجرام مع صياغة الرسالة
+            window.open(`https://t.me/${TELEGRAM_USERNAME}?text=${message}`, '_blank');
+            closeOrderModal();
+        }
+    </script>
+</body>
+</html>
