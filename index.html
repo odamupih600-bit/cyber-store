@@ -5,14 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cyber store</title>
     
-    <!-- خط Tajawal وأيقونات FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- مكتبة تليجرام WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-    <!-- مكتبات Firebase لقاعدة البيانات السحابية -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
@@ -44,6 +40,7 @@
             min-height: 100vh;
         }
 
+        /* الهيدر */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -58,15 +55,27 @@
 
         .top-bar h1 { font-size: 20px; font-weight: 800; }
 
-        .admin-toggle-btn {
-            background: rgba(37, 99, 235, 0.2);
-            color: var(--accent-glow);
-            border: 1px solid var(--accent-blue);
-            padding: 6px 12px;
-            border-radius: 8px;
+        /* 🔒 زر الإدارة المنعزل والمخفي افتراضياً */
+        .admin-isolated-btn {
+            display: none; /* مخفي عن المستخدمين العاديين */
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            color: #ffffff;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 20px;
             font-size: 12px;
-            cursor: pointer;
             font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+            animation: pulseAdmin 2s infinite;
+        }
+
+        @keyframes pulseAdmin {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
         .view-content {
@@ -102,35 +111,20 @@
         }
 
         .avatar-box {
-            width: 48px;
-            height: 48px;
+            width: 48px; height: 48px;
             background: #60a5fa;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
-            color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 18px; color: #fff;
         }
 
-        .balance-area {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
+        .balance-area { display: flex; justify-content: space-between; align-items: flex-end; }
         .balance-value { font-size: 26px; font-weight: 800; }
 
         .btn-topup {
-            background: #ffffff;
-            color: var(--accent-blue);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
+            background: #ffffff; color: var(--accent-blue);
+            border: none; padding: 8px 16px; border-radius: 10px;
+            font-weight: 700; font-size: 13px; cursor: pointer;
         }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
@@ -139,82 +133,49 @@
         .card-box {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 15px;
-            text-align: center;
+            border-radius: 16px; padding: 15px; text-align: center;
         }
 
         .card-box-icon { font-size: 28px; color: var(--accent-glow); margin-bottom: 8px; }
 
         .select-custom {
-            width: 100%;
-            background: var(--bg-main);
-            border: 1px solid var(--card-border);
-            color: #fff;
-            padding: 8px;
-            border-radius: 8px;
-            margin: 8px 0;
-            outline: none;
+            width: 100%; background: var(--bg-main); border: 1px solid var(--card-border);
+            color: #fff; padding: 8px; border-radius: 8px; margin: 8px 0; outline: none;
         }
 
         .btn-action {
-            width: 100%;
-            background: var(--accent-blue);
-            color: #fff;
-            border: none;
-            padding: 8px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 13px;
-            cursor: pointer;
+            width: 100%; background: var(--accent-blue); color: #fff;
+            border: none; padding: 8px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer;
         }
 
         .stat-value { font-size: 18px; font-weight: 800; }
         .stat-label { font-size: 11px; color: var(--text-sub); }
 
         .method-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 15px; display: flex; align-items: center; gap: 12px;
+            margin-bottom: 10px; cursor: pointer;
         }
 
         .method-badge {
-            font-size: 10px;
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success-color);
-            padding: 2px 8px;
-            border-radius: 6px;
-            margin-top: 4px;
-            display: inline-block;
+            font-size: 10px; background: rgba(16, 185, 129, 0.15);
+            color: var(--success-color); padding: 2px 8px; border-radius: 6px; margin-top: 4px; display: inline-block;
         }
 
         .log-item {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 10px;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 14px; padding: 14px; margin-bottom: 10px;
         }
 
         .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        
         .status-badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: bold; }
         .status-badge.accepted { background: rgba(16, 185, 129, 0.2); color: var(--success-color); }
         .status-badge.pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
         .status-badge.rejected { background: rgba(239, 68, 68, 0.2); color: var(--danger-color); }
 
         .admin-section {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 15px;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 14px; padding: 15px; margin-bottom: 15px;
         }
 
         .admin-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
@@ -222,26 +183,15 @@
         .admin-input { width: 70px; background: var(--bg-main); border: 1px solid var(--card-border); color: #fff; padding: 4px; border-radius: 4px; }
 
         .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: rgba(18, 25, 39, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid var(--card-border);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            z-index: 1000;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(18, 25, 39, 0.95); backdrop-filter: blur(10px);
+            border-top: 1px solid var(--card-border); display: flex; justify-content: space-around;
+            padding: 8px 0; z-index: 1000;
         }
 
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-sub);
-            font-size: 11px;
-            cursor: pointer;
-            gap: 4px;
-            width: 20%;
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--text-sub); font-size: 11px; cursor: pointer; gap: 4px; width: 20%;
         }
 
         .nav-item.active { color: var(--accent-glow); font-weight: bold; }
@@ -255,8 +205,10 @@
             <i class="fa-solid fa-xmark"></i>
             <h1>Cyber store</h1>
         </div>
-        <button class="admin-toggle-btn" onclick="toggleAdminView()">
-            <i class="fa-solid fa-user-gear"></i> الإدارة
+        
+        <!-- 🔴 زر الإدارة المنعزل (يظهر للأدمن فقط) -->
+        <button id="admin-btn" class="admin-isolated-btn" onclick="toggleAdminView()">
+            <i class="fa-solid fa-user-shield"></i> لوحة الإدارة
         </button>
     </div>
 
@@ -386,11 +338,11 @@
         </div>
     </div>
 
-    <!-- 6. لوحة الإدارة السحابية -->
+    <!-- 6. لوحة الإدارة السحابية المعزولة -->
     <div id="view-admin" class="view-content">
         <div class="page-header">
-            <h2 style="color: var(--accent-glow);">لوحة الإدارة السحابية</h2>
-            <p>بيانات حقيقية متصلة بقاعدة البيانات</p>
+            <h2 style="color: var(--danger-color);"><i class="fa-solid fa-shield-halved"></i> لوحة الإدارة الخاصة</h2>
+            <p>إدارة المستخدمين والشحنات (متاحة للآدمين فقط)</p>
         </div>
 
         <div class="admin-section">
@@ -418,7 +370,7 @@
         </div>
     </div>
 
-    <!-- شريط التنقل -->
+    <!-- شريط التنقل السفلي -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('view-account', this)"><i class="fa-solid fa-user"></i><span>حسابي</span></div>
         <div class="nav-item" onclick="switchTab('view-history', this)"><i class="fa-solid fa-clock-rotate-left"></i><span>الشحنات</span></div>
@@ -428,7 +380,9 @@
     </div>
 
     <script>
-        // ⚠️ إعدادات Firebase الخاصة بك (ضع إعدادات مشروعك هنا)
+        // 🔑 قائمة أرقام الـ Telegram ID المصرح لهم بالإدارة فقط
+        const ADMIN_TELEGRAM_IDS = ["7495506408"]; // يمكنك إضافة أرقام أخرى هنا مثل: ["7495506408", "123456789"]
+
         const firebaseConfig = {
             apiKey: "AIzaSyDemoKeyReplaceWithYours",
             authDomain: "cyber-store-demo.firebaseapp.com",
@@ -438,20 +392,27 @@
             appId: "1:1234567890:web:abcdef123456"
         };
 
-        // تهيئة Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // جلب بيانات تليجرام
         const tg = window.Telegram?.WebApp;
         if (tg) { tg.ready(); tg.expand(); }
 
         const currentUser = {
             id: tg?.initDataUnsafe?.user?.id?.toString() || "7495506408",
-            name: tg?.initDataUnsafe?.user?.first_name || "Mareeeo Faser"
+            name: tg?.initDataUnsafe?.user?.first_name || "المستخدم"
         };
 
-        // المزامنة اللحظية لحساب العميل مع قاعدة البيانات
+        // 🛡️ فحص صلاحية الآدمين عند الدخول
+        function checkAdminPermissions() {
+            const adminBtn = document.getElementById('admin-btn');
+            if (ADMIN_TELEGRAM_IDS.includes(currentUser.id)) {
+                adminBtn.style.display = 'flex'; // إظهار زر الإدارة للآدمين
+            } else {
+                adminBtn.style.display = 'none'; // إخفاء زر الإدارة تماماً عن الزوار
+            }
+        }
+
         function initUserData() {
             document.getElementById('user-name').innerText = currentUser.name;
             document.getElementById('user-id').innerText = `ID: ${currentUser.id}`;
@@ -466,7 +427,6 @@
                     document.getElementById('stat-spent').innerText = data.totalSpent?.toFixed(2) || '0.00';
                     document.getElementById('stat-recharges').innerText = data.rechargeCount || 0;
                 } else {
-                    // إنشاء حساب جديد في السحاب
                     userRef.set({
                         name: currentUser.name,
                         balance: 0.00,
@@ -477,7 +437,6 @@
                 }
             });
 
-            // مزامنة سجل شحنات العميل
             db.collection('recharges')
               .where('userId', '==', currentUser.id)
               .onSnapshot(snapshot => {
@@ -508,7 +467,6 @@
               });
         }
 
-        // تقديم طلب شحن جديد وسحبة للـ Database
         function requestRecharge(method, amount) {
             db.collection('recharges').add({
                 userId: currentUser.id,
@@ -518,13 +476,13 @@
                 status: 'pending',
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
-                alert('تم إرسال طلب الشحن بنجاح لقاعدة البيانات السحابية!');
+                alert('تم إرسال طلب الشحن بنجاح!');
             });
         }
 
-        // المزامنة اللحظية للوحة الإدارة
         function initAdminData() {
-            // جلب قائمة كافة المشتركين
+            if (!ADMIN_TELEGRAM_IDS.includes(currentUser.id)) return;
+
             db.collection('users').onSnapshot(snapshot => {
                 const list = document.getElementById('admin-users-list');
                 list.innerHTML = '';
@@ -541,7 +499,6 @@
                 });
             });
 
-            // جلب طلبات الشحن المعلقة
             db.collection('recharges').where('status', '==', 'pending').onSnapshot(snapshot => {
                 const reqList = document.getElementById('admin-requests-list');
                 reqList.innerHTML = '';
@@ -568,11 +525,10 @@
             });
         }
 
-        // إجراءات الإدارة
         function adminSetBalance(userId) {
             const val = parseFloat(document.getElementById(`input-${userId}`).value) || 0;
             db.collection('users').doc(userId).update({ balance: val });
-            alert('تم تعديل الرصيد في قاعدة البيانات السحابية!');
+            alert('تم تعديل الرصيد!');
         }
 
         function adminApprove(reqId, userId, amount) {
@@ -581,7 +537,7 @@
                 balance: firebase.firestore.FieldValue.increment(amount),
                 rechargeCount: firebase.firestore.FieldValue.increment(1)
             });
-            alert('تم قبول الطلب وإضافة الرصيد للعميل بنجاح!');
+            alert('تم قبول الطلب!');
         }
 
         function adminReject(reqId) {
@@ -589,7 +545,6 @@
             alert('تم رفض الطلب.');
         }
 
-        // التنقل بين الشاشات
         function switchTab(viewId, element) {
             document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -606,7 +561,8 @@
             }
         }
 
-        // بدء التشغيل
+        // بدء التشغيل والتحقق من الصلاحية
+        checkAdminPermissions();
         initUserData();
         initAdminData();
     </script>
