@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>متجر الشحن الرقمي | Cyber Charge</title>
+    <title>متجر الخدمات الرقمية</title>
     
     <!-- خط Tajawal وأيقونات FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -13,17 +13,21 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
+        /* CSS Design Tokens - أنظمة الألوان والتنسيق القياسية */
         :root {
-            --bg-dark: #0b0f19;
-            --card-bg: #151c2c;
-            --card-border: #232d42;
-            --accent-glow: #00d2ff;
-            --accent-purple: #7f5af0;
-            --text-main: #ffffff;
-            --text-sub: #94a3b8;
-            --success: #10b981;
-            --danger: #ef4444;
-            --radius: 16px;
+            --bg-body: #0d1117;
+            --surface-card: #161b22;
+            --surface-hover: #21262d;
+            --border-color: rgba(240, 246, 252, 0.1);
+            --primary-glow: #00f2fe;
+            --primary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --accent-purple: #7928ca;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --success: #2ea043;
+            --danger: #da3633;
+            --radius-lg: 18px;
+            --radius-sm: 10px;
         }
 
         * {
@@ -35,159 +39,162 @@
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            padding-bottom: 85px;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            padding-bottom: 90px;
+            overflow-x: hidden;
             user-select: none;
         }
 
-        /* الهيدر العلوي */
+        /* الهيدر العلوي المتجاوب */
         .app-header {
-            background: rgba(21, 28, 44, 0.85);
-            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
-            z-index: 99;
-            padding: 12px 16px;
+            z-index: 100;
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 14px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .user-pill {
+        .user-profile {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .user-avatar {
-            width: 38px;
-            height: 38px;
+        .avatar {
+            width: 40px;
+            height: 40px;
             border-radius: 12px;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-glow));
+            background: var(--primary-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
             font-size: 16px;
-            color: #fff;
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+            color: #000;
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.25);
         }
 
-        .user-meta h4 { font-size: 14px; font-weight: 700; }
-        .user-meta span { font-size: 11px; color: var(--text-sub); }
+        .user-details h4 { font-size: 14px; font-weight: 800; line-height: 1.2; }
+        .user-details span { font-size: 11px; color: var(--text-secondary); }
 
-        .balance-badge {
-            background: rgba(0, 210, 255, 0.1);
-            border: 1px solid rgba(0, 210, 255, 0.3);
-            padding: 6px 14px;
-            border-radius: 20px;
+        .wallet-badge {
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 6px 12px;
+            border-radius: 30px;
             display: flex;
             align-items: center;
             gap: 6px;
-            color: var(--accent-glow);
+            color: var(--primary-glow);
             font-size: 13px;
             font-weight: 800;
         }
 
-        /* البانر الترويجي */
+        /* البانر الرئيسي */
         .hero-banner {
-            margin: 15px 16px;
-            background: linear-gradient(135deg, #1e1b4b, #31103f);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            padding: 18px;
+            margin: 16px;
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
             position: relative;
             overflow: hidden;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border: 1px solid var(--border-color);
         }
 
         .hero-banner::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0,210,255,0.1) 0%, transparent 60%);
+            top: -40%;
+            left: -40%;
+            width: 180%;
+            height: 180%;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, transparent 70%);
             pointer-events: none;
         }
 
-        .hero-text h3 { font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 4px; }
-        .hero-text p { font-size: 12px; color: var(--text-sub); }
+        .hero-title { font-size: 18px; font-weight: 900; margin-bottom: 4px; }
+        .hero-sub { font-size: 12px; color: rgba(255, 255, 255, 0.8); }
 
-        /* شريط التبنيبات / الفئات */
-        .categories-bar {
+        /* شريط التبويبات الفئوية */
+        .category-nav {
             display: flex;
-            gap: 10px;
-            padding: 0 16px 15px 16px;
+            gap: 8px;
+            padding: 0 16px 12px 16px;
             overflow-x: auto;
             scrollbar-width: none;
         }
 
-        .categories-bar::-webkit-scrollbar { display: none; }
+        .category-nav::-webkit-scrollbar { display: none; }
 
-        .cat-chip {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
+        .tab-btn {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
             padding: 8px 16px;
-            border-radius: 25px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 700;
-            color: var(--text-sub);
             white-space: nowrap;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .cat-chip.active {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-glow));
-            color: #fff;
+        .tab-btn.active {
+            background: var(--primary-gradient);
+            color: #000;
             border-color: transparent;
-            box-shadow: 0 4px 12px rgba(127, 90, 240, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 242, 254, 0.3);
         }
 
-        /* شبكة المنتجات والألعاب */
-        .section-title {
-            padding: 0 16px 10px 16px;
-            font-size: 15px;
-            font-weight: 800;
+        /* شبكة المنتجات */
+        .section-header {
+            padding: 4px 16px 12px 16px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .products-grid {
+        .section-title { font-size: 15px; font-weight: 800; }
+
+        .store-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             padding: 0 16px;
         }
 
-        .game-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
+        .product-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
             padding: 12px;
-            position: relative;
-            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.15s ease;
         }
 
-        .game-card:active { transform: scale(0.97); }
+        .product-card:active {
+            transform: scale(0.97);
+        }
 
-        .game-thumb {
+        .product-image {
             width: 100%;
             height: 110px;
-            border-radius: 12px;
+            border-radius: var(--radius-sm);
             object-fit: cover;
             margin-bottom: 10px;
         }
 
-        .game-title {
+        .product-name {
             font-size: 13px;
             font-weight: 800;
             margin-bottom: 4px;
@@ -196,422 +203,400 @@
             text-overflow: ellipsis;
         }
 
-        .game-tag {
+        .product-tag {
             font-size: 10px;
-            color: var(--accent-glow);
-            background: rgba(0, 210, 255, 0.1);
-            padding: 2px 8px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-bottom: 8px;
+            color: var(--primary-glow);
+            background: rgba(0, 242, 254, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            align-self: flex-start;
+            margin-bottom: 10px;
         }
 
-        .game-footer {
+        .card-action {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 4px;
         }
 
-        .btn-buy {
-            background: var(--accent-purple);
-            color: #fff;
-            border: none;
+        .btn-charge {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
             padding: 6px 12px;
             border-radius: 8px;
             font-size: 11px;
             font-weight: 800;
-            cursor: pointer;
         }
 
-        /* النافذة المنبثقة للشراء (Drawer / Modal) */
-        .modal-overlay {
+        /* نافذة الشراء السفلية (Bottom Sheet Modal) */
+        .sheet-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
             z-index: 1000;
-            display: none;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.25s ease;
+            display: flex;
             align-items: flex-end;
         }
 
-        .modal-overlay.active { display: flex; }
+        .sheet-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
 
-        .drawer-content {
-            background: var(--card-bg);
-            border-top: 1px solid var(--card-border);
+        .sheet-content {
+            background: var(--surface-card);
+            border-top: 1px solid var(--border-color);
             border-radius: 24px 24px 0 0;
             width: 100%;
             max-height: 85vh;
-            overflow-y: auto;
             padding: 20px;
-            animation: slideUp 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+        .sheet-overlay.active .sheet-content {
+            transform: translateY(0);
         }
 
-        .drawer-header {
+        .sheet-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
-        .close-btn {
-            background: rgba(255, 255, 255, 0.1);
+        .close-sheet {
+            background: var(--surface-hover);
             border: none;
-            color: #fff;
-            width: 30px;
-            height: 30px;
+            color: var(--text-secondary);
+            width: 32px; height: 32px;
             border-radius: 50%;
             cursor: pointer;
         }
 
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
+        .input-label {
             display: block;
             font-size: 12px;
-            color: var(--text-sub);
-            margin-bottom: 6px;
+            color: var(--text-secondary);
             font-weight: 700;
+            margin-bottom: 6px;
         }
 
-        .custom-input {
+        .text-input {
             width: 100%;
-            background: var(--bg-dark);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
             padding: 12px;
-            color: #fff;
+            color: var(--text-primary);
             font-size: 14px;
             outline: none;
-            transition: border-color 0.2s;
+            margin-bottom: 16px;
         }
 
-        .custom-input:focus {
-            border-color: var(--accent-glow);
+        .text-input:focus {
+            border-color: var(--primary-glow);
         }
 
-        /* حزم الكميات / الشدات / الجواهر */
+        /* شبكة أزرار الحزم */
         .packages-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        .package-item {
-            background: var(--bg-dark);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
+        .package-card {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
             padding: 12px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
         }
 
-        .package-item.selected {
-            border-color: var(--accent-glow);
-            background: rgba(0, 210, 255, 0.08);
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+        .package-card.selected {
+            border-color: var(--primary-glow);
+            background: rgba(0, 242, 254, 0.05);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.15);
         }
 
-        .pkg-amount { font-size: 14px; font-weight: 800; color: #fff; }
-        .pkg-price { font-size: 12px; color: var(--accent-glow); font-weight: 700; margin-top: 4px; }
+        .pkg-title { font-size: 14px; font-weight: 800; }
+        .pkg-price { font-size: 12px; color: var(--primary-glow); font-weight: 700; margin-top: 2px; }
 
-        .btn-confirm {
+        .btn-submit {
             width: 100%;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-glow));
-            color: #fff;
+            background: var(--primary-gradient);
+            color: #000;
             border: none;
             padding: 14px;
-            border-radius: 12px;
+            border-radius: var(--radius-sm);
             font-size: 15px;
-            font-weight: 800;
+            font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 242, 254, 0.3);
         }
 
-        /* الشريط السفلي */
-        .bottom-nav {
+        /* الشريط السفلي للتنقل */
+        .bottom-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
-            background: rgba(21, 28, 44, 0.95);
+            background: rgba(22, 27, 34, 0.9);
             backdrop-filter: blur(12px);
-            border-top: 1px solid var(--card-border);
+            border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            z-index: 900;
+            z-index: 90;
         }
 
-        .nav-link {
+        .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--text-sub);
+            color: var(--text-secondary);
             font-size: 11px;
-            gap: 4px;
+            gap: 3px;
             cursor: pointer;
-            text-decoration: none;
         }
 
-        .nav-link.active { color: var(--accent-glow); font-weight: 800; }
-        .nav-link i { font-size: 18px; }
+        .nav-item.active {
+            color: var(--primary-glow);
+            font-weight: 800;
+        }
+
+        .nav-item i { font-size: 18px; }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر -->
+    <!-- Header -->
     <header class="app-header">
-        <div class="user-pill">
-            <div class="user-avatar" id="u-avatar">U</div>
-            <div class="user-meta">
+        <div class="user-profile">
+            <div class="avatar" id="u-avatar">U</div>
+            <div class="user-details">
                 <h4 id="u-name">جاري التحميل...</h4>
                 <span id="u-id">ID: -------</span>
             </div>
         </div>
-        <div class="balance-badge">
+        <div class="wallet-badge">
             <i class="fa-solid fa-wallet"></i>
             <span id="u-balance">0.00 $</span>
         </div>
     </header>
 
-    <!-- البانر -->
-    <section class="hero-banner">
-        <div class="hero-text">
-            <h3>شحن فوري ومباشر ⚡</h3>
-            <p>شدات، جواهر، اشتراكات بأفضل الأسعار</p>
-        </div>
-        <i class="fa-solid fa-bolt" style="font-size: 38px; color: var(--accent-glow);"></i>
-    </section>
-
-    <!-- الفئات -->
-    <nav class="categories-bar">
-        <div class="cat-chip active" onclick="filterCat('all', this)">⚡ الكل</div>
-        <div class="cat-chip" onclick="filterCat('games', this)">🎮 الألعاب</div>
-        <div class="cat-chip" onclick="filterCat('apps', this)">📱 التطبيقات</div>
-        <div class="cat-chip" onclick="filterCat('cards', this)">🎁 البطاقات</div>
-    </nav>
-
-    <!-- قائمة الألعاب والخدمات -->
-    <div class="section-title">
-        <span>العناصر المتاحة</span>
-        <span style="font-size: 11px; color: var(--text-sub);">تحديث لحظي</span>
+    <!-- Banner -->
+    <div class="hero-banner">
+        <div class="hero-title">تسليم فوري ومباشر ⚡</div>
+        <div class="hero-sub">اشحن ألعابك وتطبيقاتك بلمسة واحدة</div>
     </div>
 
-    <main class="products-grid" id="products-container">
-        <!-- يتم ملء العناصر تلقائياً عبر JavaScript -->
-    </main>
+    <!-- Filter Categories -->
+    <div class="category-nav">
+        <button class="tab-btn active" onclick="filterItems('all', this)">الكل</button>
+        <button class="tab-btn" onclick="filterItems('games', this)">🎮 الألعاب</button>
+        <button class="tab-btn" onclick="filterItems('apps', this)">📱 التطبيقات</button>
+        <button class="tab-btn" onclick="filterItems('cards', this)">🎁 البطاقات</button>
+    </div>
 
-    <!-- نافذة الشراء المنبثقة -->
-    <div class="modal-overlay" id="purchase-modal">
-        <div class="drawer-content">
-            <div class="drawer-header">
-                <h3 id="modal-title" style="font-size: 16px; font-weight: 800;">شحن الحساب</h3>
-                <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    <!-- Products Grid -->
+    <div class="section-header">
+        <div class="section-title">العناصر المتاحة</div>
+        <span style="font-size: 11px; color: var(--text-secondary);">تحديث تلقائي</span>
+    </div>
+
+    <div class="store-grid" id="grid-container">
+        <!-- Rendered via JavaScript -->
+    </div>
+
+    <!-- Checkout Bottom Sheet -->
+    <div class="sheet-overlay" id="checkout-sheet">
+        <div class="sheet-content">
+            <div class="sheet-header">
+                <h3 id="sheet-title" style="font-size: 16px; font-weight: 800;">تأكيد الشحن</h3>
+                <button class="close-sheet" onclick="closeSheet()"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- إدخال ID اللاعب -->
-            <div class="input-group">
-                <label id="modal-id-label"><i class="fa-solid fa-id-card"></i> معرف اللاعب (Player ID):</label>
-                <input type="text" id="player-id-input" class="custom-input" placeholder="أدخل ID الخاص بك هنا">
+            <label class="input-label"><i class="fa-solid fa-id-badge"></i> معرف الحساب (Player ID):</label>
+            <input type="text" id="input-player-id" class="text-input" placeholder="أدخل آيدي الحساب هنا...">
+
+            <label class="input-label">اختر الكمية المطلوب شحنها:</label>
+            <div class="packages-grid" id="packages-list">
+                <!-- Packages injected here -->
             </div>
 
-            <!-- اختيار الحزمة -->
-            <label style="font-size: 12px; color: var(--text-sub); font-weight: 700; margin-bottom: 8px; display: block;">اختر الكمية المطلوبة:</label>
-            <div class="packages-grid" id="packages-container">
-                <!-- تجلب الحزم من السكربت -->
-            </div>
-
-            <button class="btn-confirm" onclick="submitOrder()"><i class="fa-solid fa-cart-shopping"></i> تأكيد الطلب والشحن</button>
+            <button class="btn-submit" onclick="confirmPurchase()">تأكيد الطلب للشحن <i class="fa-solid fa-bolt"></i></button>
         </div>
     </div>
 
-    <!-- شريط التنقل السفلي -->
-    <nav class="bottom-nav">
-        <a class="nav-link active"><i class="fa-solid fa-gamepad"></i><span>المتجر</span></a>
-        <a class="nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>طلباتي</span></a>
-        <a class="nav-link"><i class="fa-solid fa-wallet"></i><span>شحن رصيد</span></a>
-        <a class="nav-link"><i class="fa-solid fa-headset"></i><span>الدعم</span></a>
+    <!-- Bottom Nav -->
+    <nav class="bottom-bar">
+        <div class="nav-item active"><i class="fa-solid fa-store"></i><span>المتجر</span></div>
+        <div class="nav-item"><i class="fa-solid fa-list-check"></i><span>طلباتي</span></div>
+        <div class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span>السجل</span></div>
+        <div class="nav-item"><i class="fa-solid fa-headset"></i><span>الدعم</span></div>
     </nav>
 
     <script>
-        // تهيئة تليجرام WebApp
+        // Init Telegram WebApp
         const tg = window.Telegram?.WebApp;
         if (tg) {
             tg.ready();
             tg.expand();
         }
 
-        // بيانت المستخدم من تليجرام
         const user = {
             name: tg?.initDataUnsafe?.user?.first_name || "مستخدم جديد",
-            id: tg?.initDataUnsafe?.user?.id || "123456789"
+            id: tg?.initDataUnsafe?.user?.id || "7495506408"
         };
 
         document.getElementById('u-name').innerText = user.name;
         document.getElementById('u-id').innerText = `ID: ${user.id}`;
         document.getElementById('u-avatar').innerText = user.name.charAt(0).toUpperCase();
 
-        // بيانات ألعاب وتطبيقات الشحن
-        const productsData = [
+        // Catalog Data
+        const storeCatalog = [
             {
                 id: 'pubg',
                 category: 'games',
-                title: 'ببجي موبايل (PUBG)',
-                tag: 'شحن ID فوري',
+                name: 'ببجي موبايل (PUBG)',
+                tag: 'تسليم آلي ID',
                 image: 'https://img.freepik.com/free-vector/gradient-esports-logo-design_23-2149021873.jpg',
                 packages: [
-                    { amount: '60 UC', price: '1.20 $' },
-                    { amount: '325 UC', price: '5.00 $' },
-                    { amount: '660 UC', price: '9.80 $' },
-                    { amount: '1800 UC', price: '24.50 $' }
+                    { qty: '60 UC', price: '1.25 $' },
+                    { qty: '325 UC', price: '5.10 $' },
+                    { qty: '660 UC', price: '9.90 $' },
+                    { qty: '1800 UC', price: '24.90 $' }
                 ]
             },
             {
                 id: 'freefire',
                 category: 'games',
-                title: 'فري فاير (Free Fire)',
-                tag: 'جواهر عن طريق المعرف',
+                name: 'فري فاير (Free Fire)',
+                tag: 'جواهر مباشرة',
                 image: 'https://img.freepik.com/free-vector/gaming-badge-logo-template_23-2148842602.jpg',
                 packages: [
-                    { amount: '100 Diamond', price: '1.00 $' },
-                    { amount: '310 Diamond', price: '3.00 $' },
-                    { amount: '520 Diamond', price: '5.00 $' },
-                    { amount: '1060 Diamond', price: '10.00 $' }
+                    { qty: '100 Diamond', price: '1.00 $' },
+                    { qty: '310 Diamond', price: '3.10 $' },
+                    { qty: '520 Diamond', price: '5.00 $' }
                 ]
             },
             {
                 id: 'tiktok',
                 category: 'apps',
-                title: 'عملات تيك توك (TikTok)',
-                tag: 'عملات هدايا',
+                name: 'عملات تيك توك',
+                tag: 'شحن حسابات',
                 image: 'https://img.freepik.com/free-vector/gradient-social-media-concept_23-2148496458.jpg',
                 packages: [
-                    { amount: '70 Coins', price: '1.10 $' },
-                    { amount: '350 Coins', price: '5.20 $' },
-                    { amount: '1400 Coins', price: '20.00 $' }
-                ]
-            },
-            {
-                id: 'ludo',
-                category: 'games',
-                title: 'يلا لودو (Yalla Ludo)',
-                tag: 'أماس وذهب',
-                image: 'https://img.freepik.com/free-vector/flat-design-game-controller-logo_23-2148821035.jpg',
-                packages: [
-                    { amount: '40 Gems', price: '1.00 $' },
-                    { amount: '260 Gems', price: '5.00 $' },
-                    { amount: '1350 Gems', price: '24.00 $' }
+                    { qty: '70 Coins', price: '1.15 $' },
+                    { qty: '350 Coins', price: '5.30 $' }
                 ]
             }
         ];
 
-        let selectedProduct = null;
-        let selectedPackage = null;
+        let activeProduct = null;
+        let activePackage = null;
 
-        // عرض المنتجات
-        function renderProducts(filter = 'all') {
-            const container = document.getElementById('products-container');
-            container.innerHTML = '';
+        function renderCatalog(category = 'all') {
+            const grid = document.getElementById('grid-container');
+            grid.innerHTML = '';
 
-            const filtered = filter === 'all' ? productsData : productsData.filter(p => p.category === filter);
+            const list = category === 'all' ? storeCatalog : storeCatalog.filter(i => i.category === category);
 
-            filtered.forEach(prod => {
-                container.innerHTML += `
-                    <div class="game-card" onclick="openPurchaseModal('${prod.id}')">
-                        <img src="${prod.image}" class="game-thumb" alt="${prod.title}">
-                        <div class="game-title">${prod.title}</div>
-                        <span class="game-tag">${prod.tag}</span>
-                        <div class="game-footer">
-                            <span style="font-size:11px; color:var(--text-sub);">تبدأ من ${prod.packages[0].price}</span>
-                            <button class="btn-buy">شحن</button>
+            list.forEach(item => {
+                grid.innerHTML += `
+                    <div class="product-card" onclick="openSheet('${item.id}')">
+                        <div>
+                            <img src="${item.image}" class="product-image" alt="${item.name}">
+                            <div class="product-name">${item.name}</div>
+                            <div class="product-tag">${item.tag}</div>
+                        </div>
+                        <div class="card-action">
+                            <span style="font-size: 11px; color: var(--text-secondary);">من ${item.packages[0].price}</span>
+                            <button class="btn-charge">شحن</button>
                         </div>
                     </div>
                 `;
             });
         }
 
-        // فلترة الفئات
-        function filterCat(cat, element) {
-            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
-            element.classList.add('active');
-            renderProducts(cat);
+        function filterItems(cat, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderCatalog(cat);
         }
 
-        // فتح نافذة الشراء
-        function openPurchaseModal(productId) {
-            selectedProduct = productsData.find(p => p.id === productId);
-            selectedPackage = null;
+        function openSheet(id) {
+            activeProduct = storeCatalog.find(p => p.id === id);
+            activePackage = null;
 
-            document.getElementById('modal-title').innerText = `شحن ${selectedProduct.title}`;
-            const pkgContainer = document.getElementById('packages-container');
-            pkgContainer.innerHTML = '';
+            document.getElementById('sheet-title').innerText = `شحن ${activeProduct.name}`;
+            const pkgBox = document.getElementById('packages-list');
+            pkgBox.innerHTML = '';
 
-            selectedProduct.packages.forEach((pkg, index) => {
-                pkgContainer.innerHTML += `
-                    <div class="package-item" onclick="selectPackage(this, '${pkg.amount}', '${pkg.price}')">
-                        <div class="pkg-amount">${pkg.amount}</div>
+            activeProduct.packages.forEach(pkg => {
+                pkgBox.innerHTML += `
+                    <div class="package-card" onclick="selectPkg(this, '${pkg.qty}', '${pkg.price}')">
+                        <div class="pkg-title">${pkg.qty}</div>
                         <div class="pkg-price">${pkg.price}</div>
                     </div>
                 `;
             });
 
-            document.getElementById('purchase-modal').classList.add('active');
+            document.getElementById('checkout-sheet').classList.add('active');
+            if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
         }
 
-        // تحديد الحزمة
-        function selectPackage(element, amount, price) {
-            document.querySelectorAll('.package-item').forEach(i => i.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedPackage = { amount, price };
+        function selectPkg(el, qty, price) {
+            document.querySelectorAll('.package-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            activePackage = { qty, price };
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
-        // إغلاق النافذة
-        function closeModal() {
-            document.getElementById('purchase-modal').classList.remove('active');
+        function closeSheet() {
+            document.getElementById('checkout-sheet').classList.remove('active');
         }
 
-        // تقديم الطلب
-        function submitOrder() {
-            const playerId = document.getElementById('player-id-input').value.trim();
+        function confirmPurchase() {
+            const playerId = document.getElementById('input-player-id').value.trim();
 
             if (!playerId) {
-                alert('يرجى إدخال ID اللاعب أولاً!');
+                alert('يرجى إدخال معرف الحساب (ID)');
                 return;
             }
 
-            if (!selectedPackage) {
-                alert('يرجى اختيار الحزمة المطلوب شحنها!');
+            if (!activePackage) {
+                alert('يرجى اختيار الحزمة المطلوبة');
                 return;
             }
 
-            const orderPayload = {
+            const data = {
                 user_id: user.id,
-                user_name: user.name,
-                game: selectedProduct.title,
+                item: activeProduct.name,
                 player_id: playerId,
-                package: selectedPackage.amount,
-                price: selectedPackage.price
+                package: activePackage.qty,
+                price: activePackage.price
             };
 
-            // إرسال البيانات فوراً لـ Telegram Bot
             if (tg && tg.sendData) {
-                tg.sendData(JSON.stringify(orderPayload));
+                tg.sendData(JSON.stringify(data));
             } else {
-                alert(`تم تأكيد طلبك بنجاح!\nالخدمة: ${selectedProduct.title}\nالـ ID: ${playerId}\nالحزمة: ${selectedPackage.amount}`);
-                closeModal();
+                alert(`تم تأكيد الطلب بنجاح:\n${activeProduct.name}\nالحزمة: ${activePackage.qty}\nالـ ID: ${playerId}`);
+                closeSheet();
             }
         }
 
-        // التشغيل المبدئي
-        renderProducts();
+        // Render initially
+        renderCatalog();
     </script>
 </body>
 </html>
