@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cyber store</title>
+    
+    <!-- خط Tajawal وأيقونات FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- مكتبة تليجرام WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- مكتبات Firebase لقاعدة البيانات السحابية -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <style>
         :root {
@@ -36,7 +44,6 @@
             min-height: 100vh;
         }
 
-        /* Top Header Bar */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -49,16 +56,7 @@
             border-bottom: 1px solid var(--card-border);
         }
 
-        .top-bar .title-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .top-bar h1 {
-            font-size: 20px;
-            font-weight: 800;
-        }
+        .top-bar h1 { font-size: 20px; font-weight: 800; }
 
         .admin-toggle-btn {
             background: rgba(37, 99, 235, 0.2);
@@ -71,26 +69,20 @@
             font-weight: bold;
         }
 
-        /* Container Views */
         .view-content {
             display: none;
             padding: 15px;
             animation: fadeIn 0.2s ease-in-out;
         }
 
-        .view-content.active {
-            display: block;
-        }
+        .view-content.active { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Profile Card Styling */
-        .page-header {
-            margin-bottom: 15px;
-        }
+        .page-header { margin-bottom: 15px; }
         .page-header h2 { font-size: 22px; font-weight: 800; }
         .page-header p { font-size: 13px; color: var(--text-sub); }
 
@@ -98,8 +90,6 @@
             background: linear-gradient(135deg, #2563eb, #4f46e5);
             border-radius: 20px;
             padding: 20px;
-            position: relative;
-            overflow: hidden;
             box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
             margin-bottom: 15px;
         }
@@ -124,16 +114,12 @@
             color: #fff;
         }
 
-        .user-details h3 { font-size: 16px; font-weight: 700; }
-        .user-details span { font-size: 12px; opacity: 0.8; }
-
         .balance-area {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
         }
 
-        .balance-title { font-size: 12px; opacity: 0.9; margin-bottom: 4px; }
         .balance-value { font-size: 26px; font-weight: 800; }
 
         .btn-topup {
@@ -145,24 +131,10 @@
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
-        /* Grid Sections */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 
         .card-box {
             background: var(--card-bg);
@@ -172,11 +144,7 @@
             text-align: center;
         }
 
-        .card-box-icon {
-            font-size: 28px;
-            color: var(--accent-glow);
-            margin-bottom: 8px;
-        }
+        .card-box-icon { font-size: 28px; color: var(--accent-glow); margin-bottom: 8px; }
 
         .select-custom {
             width: 100%;
@@ -201,10 +169,9 @@
             cursor: pointer;
         }
 
-        .stat-value { font-size: 18px; font-weight: 800; margin-bottom: 2px; }
+        .stat-value { font-size: 18px; font-weight: 800; }
         .stat-label { font-size: 11px; color: var(--text-sub); }
 
-        /* Payment Methods list */
         .method-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -227,7 +194,6 @@
             display: inline-block;
         }
 
-        /* Transactions Log */
         .log-item {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -235,22 +201,14 @@
             padding: 14px;
             margin-bottom: 10px;
         }
-        .log-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        .status-badge {
-            font-size: 11px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
+
+        .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        
+        .status-badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: bold; }
         .status-badge.accepted { background: rgba(16, 185, 129, 0.2); color: var(--success-color); }
         .status-badge.pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .status-badge.rejected { background: rgba(239, 68, 68, 0.2); color: var(--danger-color); }
 
-        /* Admin Table */
         .admin-section {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -258,32 +216,14 @@
             padding: 15px;
             margin-bottom: 15px;
         }
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            margin-top: 10px;
-        }
-        .admin-table th, .admin-table td {
-            padding: 8px;
-            text-align: right;
-            border-bottom: 1px solid var(--card-border);
-        }
-        .admin-input {
-            width: 60px;
-            background: var(--bg-main);
-            border: 1px solid var(--card-border);
-            color: #fff;
-            padding: 4px;
-            border-radius: 4px;
-        }
 
-        /* Bottom Navigation Bar */
+        .admin-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+        .admin-table th, .admin-table td { padding: 8px; text-align: right; border-bottom: 1px solid var(--card-border); }
+        .admin-input { width: 70px; background: var(--bg-main); border: 1px solid var(--card-border); color: #fff; padding: 4px; border-radius: 4px; }
+
         .bottom-nav {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             background: rgba(18, 25, 39, 0.95);
             backdrop-filter: blur(10px);
             border-top: 1px solid var(--card-border);
@@ -302,23 +242,17 @@
             cursor: pointer;
             gap: 4px;
             width: 20%;
-            transition: color 0.2s;
         }
 
-        .nav-item i { font-size: 18px; }
-
-        .nav-item.active {
-            color: var(--accent-glow);
-            font-weight: bold;
-        }
+        .nav-item.active { color: var(--accent-glow); font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- الهيدر -->
     <div class="top-bar">
-        <div class="title-area">
-            <i class="fa-solid fa-xmark" style="cursor: pointer;"></i>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-xmark"></i>
             <h1>Cyber store</h1>
         </div>
         <button class="admin-toggle-btn" onclick="toggleAdminView()">
@@ -326,7 +260,7 @@
         </button>
     </div>
 
-    <!-- 1. صفحة حسابي (My Account View) -->
+    <!-- 1. حسابي -->
     <div id="view-account" class="view-content active">
         <div class="page-header">
             <h2>حسابي</h2>
@@ -335,17 +269,17 @@
 
         <div class="profile-banner">
             <div class="profile-user-info">
-                <div class="avatar-box" id="user-avatar">MF</div>
-                <div class="user-details">
+                <div class="avatar-box" id="user-avatar">U</div>
+                <div>
                     <span style="font-size: 11px;">أهلاً بك في Cyber store</span>
-                    <h3 id="user-name">Mareeeo Faser</h3>
-                    <span id="user-id">ID: 7495506408</span>
+                    <h3 id="user-name">جاري التحميل...</h3>
+                    <span id="user-id">ID: ---</span>
                 </div>
             </div>
             <div class="balance-area">
                 <div>
-                    <div class="balance-title">رصيدك الحالي</div>
-                    <div class="balance-value" id="user-balance">0.62 ل.س</div>
+                    <div style="font-size: 12px; opacity: 0.9;">رصيدك الحالي</div>
+                    <div class="balance-value" id="user-balance">0.00 ل.س</div>
                 </div>
                 <button class="btn-topup" onclick="switchTab('view-charge', document.querySelectorAll('.nav-item')[2])">
                     <i class="fa-solid fa-wallet"></i> شحن الرصيد
@@ -363,10 +297,9 @@
                 </select>
                 <button class="btn-action">حفظ العملة</button>
             </div>
-
             <div class="card-box">
                 <div class="card-box-icon"><i class="fa-solid fa-award"></i></div>
-                <div style="font-size: 14px; font-weight: bold; margin-top: 10px;" id="user-tier">عضوية برونزي</div>
+                <div style="font-size: 14px; font-weight: bold; margin-top: 10px;">عضوية برونزي</div>
                 <div style="font-size: 11px; color: var(--text-sub); margin-top: 5px;">العضوية الافتراضية لكل عميل جديد.</div>
             </div>
         </div>
@@ -374,85 +307,56 @@
         <div class="grid-3">
             <div class="card-box">
                 <div class="card-box-icon" style="font-size: 20px;"><i class="fa-solid fa-layer-group"></i></div>
-                <div class="stat-value" id="stat-spent">510.79</div>
+                <div class="stat-value" id="stat-spent">0.00</div>
                 <div class="stat-label">ل.س (إجمالي الإنفاق)</div>
             </div>
             <div class="card-box">
                 <div class="card-box-icon" style="font-size: 20px;"><i class="fa-solid fa-wallet"></i></div>
-                <div class="stat-value" id="stat-recharges">1</div>
+                <div class="stat-value" id="stat-recharges">0</div>
                 <div class="stat-label">عملية شحن</div>
             </div>
             <div class="card-box">
                 <div class="card-box-icon" style="font-size: 20px;"><i class="fa-solid fa-bag-shopping"></i></div>
-                <div class="stat-value" id="stat-preorders">2</div>
+                <div class="stat-value">0</div>
                 <div class="stat-label">طلب مسبق</div>
             </div>
         </div>
     </div>
 
-    <!-- 2. صفحة سجل الشحن (Recharge History View) -->
+    <!-- 2. سجل الشحنات -->
     <div id="view-history" class="view-content">
         <div class="page-header">
             <h2>سجل الشحن</h2>
             <p>طلبات شحن رصيدك</p>
         </div>
-
         <div id="history-list">
-            <div class="log-item">
-                <div class="log-header">
-                    <div style="font-weight: bold; font-size: 14px;">شام كاش (اوتوماتيك)</div>
-                    <span class="status-badge accepted">مقبول</span>
-                </div>
-                <div style="font-size: 11px; color: var(--text-sub); margin-bottom: 8px;">14:00 2026/09/18 • #12</div>
-                <div style="display: flex; justify-content: space-between; font-size: 13px;">
-                    <span style="color: var(--text-sub);">المبلغ المرسل</span>
-                    <span style="font-weight: bold; color: var(--accent-glow);">SYP 500.00</span>
-                </div>
-            </div>
+            <p style="text-align: center; color: var(--text-sub);">جاري تحميل السجل...</p>
         </div>
     </div>
 
-    <!-- 3. صفحة شحن الرصيد (Top Up Options View) -->
+    <!-- 3. شحن الرصيد -->
     <div id="view-charge" class="view-content">
         <div class="page-header">
             <h2>شحن الرصيد</h2>
             <p>اختر طريقة الدفع المناسبة</p>
         </div>
-
-        <div class="method-card" style="background: linear-gradient(135deg, #1e3a8a, #2563eb);">
-            <i class="fa-solid fa-credit-card" style="font-size: 24px;"></i>
-            <div>
-                <div style="font-weight: bold;">كود شحن Cyber store</div>
-                <div style="font-size: 11px; opacity: 0.8;">إدخال كود الشحن الفوري</div>
-            </div>
-        </div>
-
-        <div class="method-card" onclick="requestRecharge('شام كاش (أوتوماتيك)')">
+        <div class="method-card" onclick="requestRecharge('شام كاش (أوتوماتيك)', 500)">
             <i class="fa-solid fa-mobile-screen-button" style="font-size: 24px; color: #10b981;"></i>
             <div>
-                <div style="font-weight: bold;">شام كاش (اوتوماتيك)</div>
-                <span class="method-badge">تحقق أوتوماتيك</span>
+                <div style="font-weight: bold;">شام كاش (500 ل.س)</div>
+                <span class="method-badge">اضغط لتقديم طلب شحن فوري</span>
             </div>
         </div>
-
-        <div class="method-card" onclick="requestRecharge('سيريتل كاش (أوتوماتيك)')">
+        <div class="method-card" onclick="requestRecharge('سيريتل كاش (أوتوماتيك)', 1000)">
             <i class="fa-solid fa-bolt" style="font-size: 24px; color: #ef4444;"></i>
             <div>
-                <div style="font-weight: bold;">سيريتل كاش (اوتوماتيك)</div>
-                <span class="method-badge">تحقق أوتوماتيك</span>
-            </div>
-        </div>
-
-        <div class="method-card" onclick="requestRecharge('Binance (يدوي)')">
-            <i class="fa-brands fa-bitcoin" style="font-size: 24px; color: #f59e0b;"></i>
-            <div>
-                <div style="font-weight: bold;">Binance (يدوي)</div>
-                <div style="font-size: 11px; color: var(--text-sub);">تحويل كريبتو USDT</div>
+                <div style="font-weight: bold;">سيريتل كاش (1000 ل.س)</div>
+                <span class="method-badge">اضغط لتقديم طلب شحن فوري</span>
             </div>
         </div>
     </div>
 
-    <!-- 4. صفحة طلباتي (Orders View) -->
+    <!-- 4. طلباتي -->
     <div id="view-orders" class="view-content">
         <div class="page-header">
             <h2>طلباتي</h2>
@@ -464,7 +368,7 @@
         </div>
     </div>
 
-    <!-- 5. الصفحة الرئيسية (Home View) -->
+    <!-- 5. الرئيسية -->
     <div id="view-home" class="view-content">
         <div class="page-header">
             <h2>الرئيسية</h2>
@@ -482,188 +386,229 @@
         </div>
     </div>
 
-    <!-- 6. لوحة التحكم والإدارة (Admin View) -->
+    <!-- 6. لوحة الإدارة السحابية -->
     <div id="view-admin" class="view-content">
         <div class="page-header">
-            <h2 style="color: var(--accent-glow);">لوحة الإدارة والتحكم</h2>
-            <p>إدارة المستخدمين والشحنات وجمع البيانات</p>
+            <h2 style="color: var(--accent-glow);">لوحة الإدارة السحابية</h2>
+            <p>بيانات حقيقية متصلة بقاعدة البيانات</p>
         </div>
 
-        <!-- إحصائيات عامة -->
         <div class="admin-section">
-            <h3><i class="fa-solid fa-chart-line"></i> نظرة عامة</h3>
-            <div class="grid-3" style="margin-top: 10px;">
-                <div class="card-box">
-                    <div class="stat-value" id="admin-total-users">1</div>
-                    <div class="stat-label">المستخدمين</div>
-                </div>
-                <div class="card-box">
-                    <div class="stat-value" id="admin-pending-recharges">1</div>
-                    <div class="stat-label">طلبات معلقة</div>
-                </div>
-                <div class="card-box">
-                    <div class="stat-value">510.79</div>
-                    <div class="stat-label">المبيعات (ل.س)</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- إدارة بيانات المستخدمين -->
-        <div class="admin-section">
-            <h3><i class="fa-solid fa-users"></i> قائمة المستخدمين والبيانات</h3>
+            <h3><i class="fa-solid fa-users"></i> المشتركون في قاعدة البيانات</h3>
             <table class="admin-table">
                 <thead>
                     <tr>
                         <th>المستخدم</th>
-                        <th>ID تليجرام</th>
-                        <th>الرصيد (ل.س)</th>
-                        <th>إجراء</th>
+                        <th>Telegram ID</th>
+                        <th>الرصيد</th>
+                        <th>تعديل</th>
                     </tr>
                 </thead>
                 <tbody id="admin-users-list">
-                    <tr>
-                        <td>Mareeeo Faser</td>
-                        <td>7495506408</td>
-                        <td><input type="number" class="admin-input" id="input-bal-1" value="0.62"></td>
-                        <td><button class="btn-action" onclick="updateUserBalance(1)">تعديل</button></td>
-                    </tr>
+                    <tr><td colspan="4" style="text-align:center;">جاري الجلب...</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- إدارة طلبات الشحن -->
         <div class="admin-section">
-            <h3><i class="fa-solid fa-clock-rotate-left"></i> طلبات الشحن الواردة</h3>
+            <h3><i class="fa-solid fa-clock-rotate-left"></i> الطلبات الواردة لحظياً</h3>
             <div id="admin-requests-list">
-                <div class="log-item" id="req-1">
-                    <div class="log-header">
-                        <span>Mareeeo Faser (ID: 7495506408)</span>
-                        <span class="status-badge pending">معلق</span>
-                    </div>
-                    <div style="font-size: 12px; margin: 5px 0;">الطريقة: شام كاش - المبلغ: 500.00 ل.س</div>
-                    <div class="grid-2" style="margin-top: 10px;">
-                        <button class="btn-action" style="background: var(--success-color);" onclick="approveRequest('req-1', 500)">قبول</button>
-                        <button class="btn-action" style="background: var(--danger-color);" onclick="rejectRequest('req-1')">رفض</button>
-                    </div>
-                </div>
+                <p style="text-align:center; color: var(--text-sub);">لا توجد طلبات معلقة</p>
             </div>
         </div>
     </div>
 
-    <!-- Navigation Bar -->
+    <!-- شريط التنقل -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('view-account', this)">
-            <i class="fa-solid fa-user"></i>
-            <span>حسابي</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('view-history', this)">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            <span>الشحنات</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('view-charge', this)">
-            <i class="fa-solid fa-wallet"></i>
-            <span>شحن</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('view-orders', this)">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <span>طلباتي</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('view-home', this)">
-            <i class="fa-solid fa-house"></i>
-            <span>الرئيسية</span>
-        </div>
+        <div class="nav-item active" onclick="switchTab('view-account', this)"><i class="fa-solid fa-user"></i><span>حسابي</span></div>
+        <div class="nav-item" onclick="switchTab('view-history', this)"><i class="fa-solid fa-clock-rotate-left"></i><span>الشحنات</span></div>
+        <div class="nav-item" onclick="switchTab('view-charge', this)"><i class="fa-solid fa-wallet"></i><span>شحن</span></div>
+        <div class="nav-item" onclick="switchTab('view-orders', this)"><i class="fa-solid fa-bag-shopping"></i><span>طلباتي</span></div>
+        <div class="nav-item" onclick="switchTab('view-home', this)"><i class="fa-solid fa-house"></i><span>الرئيسية</span></div>
     </div>
 
     <script>
-        // Telegram Mini App Initialization
+        // ⚠️ إعدادات Firebase الخاصة بك (ضع إعدادات مشروعك هنا)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDemoKeyReplaceWithYours",
+            authDomain: "cyber-store-demo.firebaseapp.com",
+            projectId: "cyber-store-demo",
+            storageBucket: "cyber-store-demo.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef123456"
+        };
+
+        // تهيئة Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // جلب بيانات تليجرام
         const tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.ready();
-            tg.expand();
-            if (tg.initDataUnsafe?.user) {
-                const u = tg.initDataUnsafe.user;
-                document.getElementById('user-name').innerText = `${u.first_name} ${u.last_name || ''}`;
-                document.getElementById('user-id').innerText = `ID: ${u.id}`;
-                document.getElementById('user-avatar').innerText = u.first_name.charAt(0).toUpperCase();
-            }
+        if (tg) { tg.ready(); tg.expand(); }
+
+        const currentUser = {
+            id: tg?.initDataUnsafe?.user?.id?.toString() || "7495506408",
+            name: tg?.initDataUnsafe?.user?.first_name || "Mareeeo Faser"
+        };
+
+        // المزامنة اللحظية لحساب العميل مع قاعدة البيانات
+        function initUserData() {
+            document.getElementById('user-name').innerText = currentUser.name;
+            document.getElementById('user-id').innerText = `ID: ${currentUser.id}`;
+            document.getElementById('user-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+
+            const userRef = db.collection('users').doc(currentUser.id);
+
+            userRef.onSnapshot(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('user-balance').innerText = `${data.balance.toFixed(2)} ل.س`;
+                    document.getElementById('stat-spent').innerText = data.totalSpent?.toFixed(2) || '0.00';
+                    document.getElementById('stat-recharges').innerText = data.rechargeCount || 0;
+                } else {
+                    // إنشاء حساب جديد في السحاب
+                    userRef.set({
+                        name: currentUser.name,
+                        balance: 0.00,
+                        totalSpent: 0.00,
+                        rechargeCount: 0,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+            });
+
+            // مزامنة سجل شحنات العميل
+            db.collection('recharges')
+              .where('userId', '==', currentUser.id)
+              .onSnapshot(snapshot => {
+                  const historyList = document.getElementById('history-list');
+                  historyList.innerHTML = '';
+                  if (snapshot.empty) {
+                      historyList.innerHTML = '<p style="text-align:center; color: var(--text-sub);">لا توجد شحنات سابقة</p>';
+                      return;
+                  }
+                  snapshot.forEach(doc => {
+                      const item = doc.data();
+                      const statusClass = item.status === 'accepted' ? 'accepted' : (item.status === 'rejected' ? 'rejected' : 'pending');
+                      const statusText = item.status === 'accepted' ? 'مقبول' : (item.status === 'rejected' ? 'مرفوض' : 'قيد الانتظار');
+
+                      historyList.innerHTML += `
+                          <div class="log-item">
+                              <div class="log-header">
+                                  <div style="font-weight: bold; font-size: 14px;">${item.method}</div>
+                                  <span class="status-badge ${statusClass}">${statusText}</span>
+                              </div>
+                              <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                                  <span style="color: var(--text-sub);">المبلغ</span>
+                                  <span style="font-weight: bold; color: var(--accent-glow);">${item.amount} ل.س</span>
+                              </div>
+                          </div>
+                      `;
+                  });
+              });
         }
 
-        // Tab Switching Logic
+        // تقديم طلب شحن جديد وسحبة للـ Database
+        function requestRecharge(method, amount) {
+            db.collection('recharges').add({
+                userId: currentUser.id,
+                userName: currentUser.name,
+                method: method,
+                amount: amount,
+                status: 'pending',
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert('تم إرسال طلب الشحن بنجاح لقاعدة البيانات السحابية!');
+            });
+        }
+
+        // المزامنة اللحظية للوحة الإدارة
+        function initAdminData() {
+            // جلب قائمة كافة المشتركين
+            db.collection('users').onSnapshot(snapshot => {
+                const list = document.getElementById('admin-users-list');
+                list.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const u = doc.data();
+                    list.innerHTML += `
+                        <tr>
+                            <td>${u.name}</td>
+                            <td>${doc.id}</td>
+                            <td><input type="number" class="admin-input" id="input-${doc.id}" value="${u.balance}"></td>
+                            <td><button class="btn-action" onclick="adminSetBalance('${doc.id}')">حفظ</button></td>
+                        </tr>
+                    `;
+                });
+            });
+
+            // جلب طلبات الشحن المعلقة
+            db.collection('recharges').where('status', '==', 'pending').onSnapshot(snapshot => {
+                const reqList = document.getElementById('admin-requests-list');
+                reqList.innerHTML = '';
+                if (snapshot.empty) {
+                    reqList.innerHTML = '<p style="text-align:center; color: var(--text-sub);">لا توجد طلبات شحن معلقة</p>';
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    const req = doc.data();
+                    reqList.innerHTML += `
+                        <div class="log-item">
+                            <div class="log-header">
+                                <span>${req.userName} (${req.userId})</span>
+                                <span class="status-badge pending">معلق</span>
+                            </div>
+                            <div style="font-size: 12px; margin: 5px 0;">الطريقة: ${req.method} - المبلغ: ${req.amount} ل.س</div>
+                            <div class="grid-2" style="margin-top: 10px;">
+                                <button class="btn-action" style="background: var(--success-color);" onclick="adminApprove('${doc.id}', '${req.userId}', ${req.amount})">قبول</button>
+                                <button class="btn-action" style="background: var(--danger-color);" onclick="adminReject('${doc.id}')">رفض</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        // إجراءات الإدارة
+        function adminSetBalance(userId) {
+            const val = parseFloat(document.getElementById(`input-${userId}`).value) || 0;
+            db.collection('users').doc(userId).update({ balance: val });
+            alert('تم تعديل الرصيد في قاعدة البيانات السحابية!');
+        }
+
+        function adminApprove(reqId, userId, amount) {
+            db.collection('recharges').doc(reqId).update({ status: 'accepted' });
+            db.collection('users').doc(userId).update({
+                balance: firebase.firestore.FieldValue.increment(amount),
+                rechargeCount: firebase.firestore.FieldValue.increment(1)
+            });
+            alert('تم قبول الطلب وإضافة الرصيد للعميل بنجاح!');
+        }
+
+        function adminReject(reqId) {
+            db.collection('recharges').doc(reqId).update({ status: 'rejected' });
+            alert('تم رفض الطلب.');
+        }
+
+        // التنقل بين الشاشات
         function switchTab(viewId, element) {
-            document.querySelectorAll('.view-content').forEach(view => view.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            
+            document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             if (element) element.classList.add('active');
         }
 
-        // Toggle Admin View
         function toggleAdminView() {
             const adminView = document.getElementById('view-admin');
-            const isActive = adminView.classList.contains('active');
-            if (!isActive) {
+            if (!adminView.classList.contains('active')) {
                 switchTab('view-admin', null);
             } else {
                 switchTab('view-account', document.querySelectorAll('.nav-item')[0]);
             }
         }
 
-        // Admin Action: Update User Balance
-        function updateUserBalance(userId) {
-            const newBal = document.getElementById('input-bal-1').value;
-            document.getElementById('user-balance').innerText = `${newBal} ل.س`;
-            alert('تم تحديث رصيد المستخدم بنجاح!');
-        }
-
-        // Admin Action: Approve Recharge Request
-        function approveRequest(reqId, amount) {
-            const reqEl = document.getElementById(reqId);
-            if (reqEl) {
-                reqEl.remove();
-                
-                // Update User Interface
-                let currentBal = parseFloat(document.getElementById('user-balance').innerText) || 0;
-                let updatedBal = (currentBal + amount).toFixed(2);
-                document.getElementById('user-balance').innerText = `${updatedBal} ل.س`;
-                document.getElementById('input-bal-1').value = updatedBal;
-
-                // Add to History
-                const historyList = document.getElementById('history-list');
-                const newItem = document.createElement('div');
-                newItem.className = 'log-item';
-                newItem.innerHTML = `
-                    <div class="log-header">
-                        <div style="font-weight: bold; font-size: 14px;">شام كاش (اوتوماتيك)</div>
-                        <span class="status-badge accepted">مقبول</span>
-                    </div>
-                    <div style="font-size: 11px; color: var(--text-sub); margin-bottom: 8px;">الآن • #جديد</div>
-                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
-                        <span style="color: var(--text-sub);">المبلغ المرسل</span>
-                        <span style="font-weight: bold; color: var(--accent-glow);">SYP ${amount}.00</span>
-                    </div>
-                `;
-                historyList.prepend(newItem);
-
-                // Update Admin Pending Counter
-                document.getElementById('admin-pending-recharges').innerText = '0';
-                alert('تم قبول الطلب وإضافة الرصيد لحساب العميل.');
-            }
-        }
-
-        // Admin Action: Reject Recharge Request
-        function rejectRequest(reqId) {
-            const reqEl = document.getElementById(reqId);
-            if (reqEl) {
-                reqEl.remove();
-                document.getElementById('admin-pending-recharges').innerText = '0';
-                alert('تم رفض طلب الشحن.');
-            }
-        }
-
-        // User Action: Send Recharge Request
-        function requestRecharge(methodName) {
-            alert(`تم تقديم طلب شحن عبر (${methodName}). يمكنك إدارته وقبوله من زر "الإدارة" في الأعلى.`);
-        }
+        // بدء التشغيل
+        initUserData();
+        initAdminData();
     </script>
 </body>
 </html>
